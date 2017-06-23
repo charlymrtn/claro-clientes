@@ -10,15 +10,15 @@ keys:
 
 folders:
     # PERSONALIZAR: Ruta local a la carpeta del código
-    - map: ~/Code/ClaroPay/api
-      # Ruta en el servidor NO MODIFICAR
-      to: /home/vagrant/claropay/api
-      
-    # OTROS Sitios del ecosistema Claro Pay
-    # PERSONALIZAR: Ruta local a la carpeta del código
     - map: ~/Code/ClaroPay/clientes
       # Ruta en el servidor NO MODIFICAR
       to: /home/vagrant/claropay/clientes
+      
+    # OTROS Sitios del ecosistema Claro Pay
+    # PERSONALIZAR: Ruta local a la carpeta del código
+    - map: ~/Code/ClaroPay/api
+      # Ruta en el servidor NO MODIFICAR
+      to: /home/vagrant/claropay/api
     # PERSONALIZAR: Ruta local a la carpeta del código
     - map: ~/Code/ClaroPay/admin
       # Ruta en el servidor NO MODIFICAR
@@ -37,14 +37,14 @@ folders:
       to: /home/vagrant/claropay/monitor
       
 sites:
-    # API NO MODIFICAR
-    - map: api.claropay.local.com
-      to: /home/vagrant/claropay/api/public
-
-    # OTROS Sitios del ecosistema Claro Pay
     # Clientes NO MODIFICAR
     - map: clientes.claropay.local.com
       to: /home/vagrant/claropay/clientes/public
+
+    # OTROS Sitios del ecosistema Claro Pay
+    # API NO MODIFICAR
+    - map: api.claropay.local.com
+      to: /home/vagrant/claropay/api/public
     # Admin NO MODIFICAR
     - map: admin.claropay.local.com
       to: /home/vagrant/claropay/admin/public
