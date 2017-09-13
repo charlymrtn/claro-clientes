@@ -1,17 +1,23 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
+    "name": "claropagos/clientes",
+    "description": "Claro Pagos Clientes",
+    "keywords": ["claro", "claropagos"],
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=7.0",
-        "filp/whoops": "^2.1",
-        "jeroennoten/laravel-adminlte": "^1.19",
+        "php": ">=7.1",
         "laravel/framework": "5.5.*",
+        "laravel/passport": "^3.0",
         "laravel/tinker": "~1.0",
-        "spatie/laravel-permission": "^2.1",
-        "venturecraft/revisionable": "^1.28"
+        "filp/whoops": "^2.1",
+        "guzzlehttp/guzzle": "^6.3",
+        "jeroennoten/laravel-adminlte": "^1.20",
+        "prologue/alerts": "^0.4.1",
+        "spatie/laravel-activitylog": "^2.0",
+        "spatie/laravel-permission": "^2.5",
+        "thomaswelton/laravel-gravatar": "^1.1",
+        "intervention/image": "dev-master",
+        "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
