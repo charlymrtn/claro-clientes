@@ -35,5 +35,5 @@ Route::group(array('before' => 'auth'), function()
 
 Route::get('/api/usuario', 'Admin\API\UsuarioController@index');
 Route::get('/api/usuario/{id}', 'Admin\API\UsuarioController@show');
-Route::post('/api/{id}', 'Admin\API\UsuarioController@update');
+Route::post('/api/usuario/{id}', 'Admin\API\UsuarioController@update');
 
