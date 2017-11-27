@@ -7,7 +7,9 @@ if [ -d /home/vagrant/claropay/admin ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
 
@@ -17,7 +19,9 @@ if [ -d /home/vagrant/claropay/api ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
 
@@ -27,7 +31,9 @@ if [ -d /home/vagrant/claropay/clientes ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
 
@@ -37,7 +43,9 @@ if [ -d /home/vagrant/claropay/boveda ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
 
@@ -47,7 +55,9 @@ if [ -d /home/vagrant/claropay/queue ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
 
@@ -57,6 +67,8 @@ if [ -d /home/vagrant/claropay/monitor ]; then
     yarn install --no-bin-links
     composer install
     composer dump-autoload
-    php artisan migrate --seed
+    php artisan migrate:refresh
+    php artisan cache:clear
+    php artisan db:seed
     php artisan key:generate
 fi
