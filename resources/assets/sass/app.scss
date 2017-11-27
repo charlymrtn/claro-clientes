@@ -7,3 +7,19 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// ===============================================================================
+// Custom
+// ===============================================================================
+
+// Caja con tamaño limitado
+.box-limited {
+    overflow:auto;
+    max-height:30rem;
+}
+
+// Ventnas PNotify
+.ui-pnotify-icon, .ui-pnotify-icon span {
+    margin-right: 0.5rem;
+    margin-top: 0.3rem;
+}
