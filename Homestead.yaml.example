@@ -2,27 +2,23 @@ ip: "192.168.10.10"
 memory: 2048
 cpus: 1
 provider: virtualbox
-
 authorize: ~/.ssh/id_rsa.pub
-
 keys:
     - ~/.ssh/id_rsa
 
 folders:
     # PERSONALIZAR: Ruta local a la carpeta del código
+    - map: ~/Code/ClaroPay/admin
+      # Ruta en el servidor NO MODIFICAR
+      to: /home/vagrant/claropay/admin
+    # PERSONALIZAR: Ruta local a la carpeta del código
     - map: ~/Code/ClaroPay/clientes
       # Ruta en el servidor NO MODIFICAR
       to: /home/vagrant/claropay/clientes
-      
-    # OTROS Sitios del ecosistema Claro Pay
     # PERSONALIZAR: Ruta local a la carpeta del código
     - map: ~/Code/ClaroPay/api
       # Ruta en el servidor NO MODIFICAR
       to: /home/vagrant/claropay/api
-    # PERSONALIZAR: Ruta local a la carpeta del código
-    - map: ~/Code/ClaroPay/admin
-      # Ruta en el servidor NO MODIFICAR
-      to: /home/vagrant/claropay/admin
     # PERSONALIZAR: Ruta local a la carpeta del código
     - map: ~/Code/ClaroPay/boveda
       # Ruta en el servidor NO MODIFICAR
@@ -35,19 +31,20 @@ folders:
     - map: ~/Code/ClaroPay/monitor
       # Ruta en el servidor NO MODIFICAR
       to: /home/vagrant/claropay/monitor
-      
+    # PERSONALIZAR: Ruta local a la carpeta del código
+    - map: ~/Code/ClaroPay/tareas
+      # Ruta en el servidor NO MODIFICAR
+      to: /home/vagrant/claropay/tareas
 sites:
-    # Clientes NO MODIFICAR
-    - map: clientes.claropay.local.com
-      to: /home/vagrant/claropay/clientes/public
-
-    # OTROS Sitios del ecosistema Claro Pay
-    # API NO MODIFICAR
-    - map: api.claropay.local.com
-      to: /home/vagrant/claropay/api/public
     # Admin NO MODIFICAR
     - map: admin.claropay.local.com
       to: /home/vagrant/claropay/admin/public
+    # Clientes NO MODIFICAR
+    - map: clientes.claropay.local.com
+      to: /home/vagrant/claropay/clientes/public
+    # API NO MODIFICAR
+    - map: api.claropay.local.com
+      to: /home/vagrant/claropay/api/public
     # Bóveda NO MODIFICAR
     - map: boveda.claropay.local.com
       to: /home/vagrant/claropay/boveda/public
@@ -57,6 +54,9 @@ sites:
     # Monitor NO MODIFICAR
     - map: monitor.claropay.local.com
       to: /home/vagrant/claropay/monitor/public
+    # Monitor NO MODIFICAR
+    - map: tareas.claropay.local.com
+      to: /home/vagrant/claropay/tareas/public
 
 databases:
     - api
@@ -65,10 +65,24 @@ databases:
     - boveda
     - queue
     - monitor
+    - tareas
 
-name: amx-claropay-clientes
-hostname: amx-claropay-clientes
+name: amx-claropay-admin
+hostname: amx-claropay-admin
 
 variables:
     - key: APP_ENV
       value: local
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
