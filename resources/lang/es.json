@@ -1,0 +1,8 @@
+{
+    "activity.updated": "Objeto actualizado",
+    "activity.created": "Objeto creado",
+    "activity.deleted": "Objeto borrado",
+    "activity.restored": "Objeto restaurado",
+    "activity.login": "Inicio de sesion",
+    "activity.logout": "Cierre de sesion"
+}

@@ -2,38 +2,24 @@
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Rutas
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
 
-Route::get('/', function () {
-    return view('index');
+// Inicio
+Route::get('/', 'HomeController@index');
+
+// Auth
+Auth::routes();
+Route::get('/logout', 'Auth\LoginController@logout')->name('logout'); // Get logout hack
+
+// Clientes
+Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'middleware' => ['auth', 'permission:accesar backend clientes']], function () {
+    require base_path('routes/web/clientes/clientes.php');
 });
 
-
-//['middleware' => ['client']
-
-/*
-Route::group(['middleware' => ['auth']], function () {
-    Route::resource('/api/usuario', 'Admin\API\UsuarioController', ['as' => 'api']);
-});
-
-*/
-
-/*
-Route::group(array('before' => 'auth'), function()
-{
-
-    Route::get('/api/usuario', 'Admin\API\UsuarioController', ['as' => 'api']);
-});
-*/
-
-Route::get('/api/usuario', 'Admin\API\UsuarioController@index');
-Route::get('/api/usuario/{id}', 'Admin\API\UsuarioController@show');
-Route::post('/api/usuario/{id}', 'Admin\API\UsuarioController@update');
+// Que es esto?
+//Route::get('/api/usuario', 'Admin\API\UsuarioController@index');
+//Route::get('/api/usuario/{id}', 'Admin\API\UsuarioController@show');
+//Route::post('/api/usuario/{id}', 'Admin\API\UsuarioController@update');
 

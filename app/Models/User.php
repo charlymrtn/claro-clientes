@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Activitylog\Traits\LogsActivity;
+//use Spatie\Activitylog\Traits\CausesActivity;
 
-
-class User extends Model
+class User extends Authenticatable
 {
-    use HasApiTokens, Notifiable, HasRoles, SoftDeletes;
+    use HasApiTokens, Notifiable, HasRoles, SoftDeletes, LogsActivity;
 
     /**
      * The attributes that are mass assignable.

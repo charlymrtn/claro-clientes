@@ -55,7 +55,7 @@ if (mix.config.inProduction) {
         // UI - JQuery, Bootstrap, FA, Ion icons,
         .scripts([
             'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
             //'vendor/jeroennoten/laravel-adminlte/resources/assets/dist/js/app.min.js',
             // PNotify
             'node_modules/pnotify/dist/pnotify.js',
@@ -150,7 +150,7 @@ if (mix.config.inProduction) {
         // UI - JQuery, Bootstrap, FA, Ion icons,
         .scripts([
             'node_modules/jquery/dist/jquery.min.js',
-            'node_modules/bootstrap/dist/js/bootstrap.min.js',
+            'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
             //'vendor/jeroennoten/laravel-adminlte/resources/assets/dist/js/app.min.js',
             // PNotify
             'node_modules/pnotify/dist/pnotify.js',

@@ -13,9 +13,9 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 2',
+    'title' => 'Clientes',
 
-    'title_prefix' => '',
+    'title_prefix' => 'Claro Pagos - ',
 
     'title_postfix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
+    'logo' => '<b>Claro Pagos</b>',
 
-    'logo_mini' => '<b>A</b>LT',
+    'logo_mini' => '<b>CP</b>C',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '/',
 
     'logout_url' => 'logout',
 
@@ -93,7 +93,7 @@ return [
 
     'login_url' => 'login',
 
-    'register_url' => 'register',
+    'register_url' => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -108,80 +108,30 @@ return [
     */
 
     'menu' => [
-        'MAIN NAVIGATION',
+        // Portal de clientes
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'header' => 'PORTAL DE CLIENTES',
+            'can' => 'accesar backend clientes',
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text' => 'Transacciones',
+            'url' => 'admin/transaccion',
+            'icon' => 'exchange',
+            'can' => 'listar transacciones clientes',
         ],
-        'ACCOUNT SETTINGS',
+
+        // Perfil del usuario
+        'CUENTA',
         [
-            'text' => 'Profile',
-            'url'  => 'admin/settings',
+            'text' => 'Perfil',
+            'url'  => 'clientes/perfil',
             'icon' => 'user',
+            'can' => 'ver perfil clientes',
         ],
         [
-            'text' => 'Change Password',
-            'url'  => 'admin/settings',
-            'icon' => 'lock',
-        ],
-        [
-            'text'    => 'Multilevel',
-            'icon'    => 'share',
-            'submenu' => [
-                [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'Level One',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Level Two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'Level Two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        'LABELS',
-        [
-            'text'       => 'Important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'Warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'Information',
-            'icon_color' => 'aqua',
+            'text' => 'Salir',
+            'url'  => 'logout',
+            'icon' => 'power-off',
         ],
     ],
 
