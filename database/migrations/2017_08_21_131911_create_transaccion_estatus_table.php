@@ -13,7 +13,7 @@ class CreateTransaccionEstatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaccion_estatus', function (Blueprint $table) {
+        Schema::connection('mysql_sa')->create('transaccion_estatus', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre', 30);
             $table->string('descripcion', 80);
@@ -31,6 +31,6 @@ class CreateTransaccionEstatusTable extends Migration
      */
     public function down()
     {
-        Schema::drop('transaccion_estatus');
+        Schema::connection('mysql_sa')->drop('transaccion_estatus');
     }
 }

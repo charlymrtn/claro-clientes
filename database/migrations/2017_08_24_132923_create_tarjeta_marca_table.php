@@ -13,7 +13,7 @@ class CreateTarjetaMarcaTable extends Migration
      */
     public function up()
     {
-        Schema::create('tarjeta_marca', function (Blueprint $table) {
+        Schema::connection('mysql_sa')->create('tarjeta_marca', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre',30);
             $table->string('rango');
@@ -31,6 +31,6 @@ class CreateTarjetaMarcaTable extends Migration
      */
     public function down()
     {
-        Schema::drop('tarjeta_marca');
+        Schema::connection('mysql_sa')->drop('tarjeta_marca');
     }
 }

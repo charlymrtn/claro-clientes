@@ -13,7 +13,7 @@ class CreateActividadComercialTable extends Migration
      */
     public function up()
     {
-       Schema::create('actividad_comercial', function (Blueprint $table) {
+       Schema::connection('mysql_sa')->create('actividad_comercial', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
             // Traits
@@ -31,6 +31,6 @@ class CreateActividadComercialTable extends Migration
      */
     public function down()
     {
-        Schema::drop('actividad_comercial');
+        Schema::connection('mysql_sa')->drop('actividad_comercial');
     }
 }

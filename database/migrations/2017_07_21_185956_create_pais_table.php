@@ -13,7 +13,7 @@ class CreatePaisTable extends Migration
      */
     public function up()
     {
-        Schema::create('pais', function (Blueprint $table) {
+        Schema::connection('mysql_sa')->create('pais', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
             $table->string('iso_a2', 2);
@@ -32,6 +32,6 @@ class CreatePaisTable extends Migration
      */
     public function down()
     {
-        Schema::drop('pais');
+        Schema::connection('mysql_sa')->drop('pais');
     }
 }

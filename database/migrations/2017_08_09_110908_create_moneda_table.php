@@ -12,7 +12,7 @@ class CreateMonedaTable extends Migration
      * @return void
      */
     public function up(){
-        Schema::create('moneda',function(Blueprint $table){
+        Schema::connection('mysql_sa')->create('moneda',function(Blueprint $table){
             $table->increments('id');
             $table->string('nombre');
             $table->string('iso_a3');
@@ -30,7 +30,7 @@ class CreateMonedaTable extends Migration
      */
 
     public function down(){
-        Schema::drop('moneda');
+        Schema::connection('mysql_sa')->drop('moneda');
     }
 
 }

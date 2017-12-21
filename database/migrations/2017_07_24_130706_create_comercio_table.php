@@ -13,7 +13,7 @@ class CreateComercioTable extends Migration
      */
     public function up()
     {
-        Schema::create('comercio', function (Blueprint $table) {
+        Schema::connection('mysql_sa')->create('comercio', function (Blueprint $table) {
             $table->increments('id');
             $table->uuid('uuid')->unique();
             $table->string('comercio_nombre');
@@ -57,6 +57,6 @@ class CreateComercioTable extends Migration
      */
     public function down()
     {
-        Schema::drop('comercio');
+        Schema::connection('mysql_sa')->drop('comercio');
     }
 }

@@ -13,7 +13,7 @@ class CreateEstadoTable extends Migration
      */
     public function up()
     {
-        Schema::create('estado', function (Blueprint $table) {
+        Schema::connection('mysql_sa')->create('estado', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('pais_id');
             $table->string('nombre');
@@ -31,6 +31,6 @@ class CreateEstadoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('estado');
+        Schema::connection('mysql_sa')->drop('estado');
     }
 }
