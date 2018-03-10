@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Laravel\Passport\Passport;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Spatie\Permission\Models\Role;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -24,7 +26,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
-        //
+        // Passport Auth Routes
+        Passport::routes();
+        // Define Passport Scopes utilizando los Roles de Spatie\Permission
+        Passport::tokensCan(Role::where('guard_name', 'api')->pluck('guard_name', 'name')->toArray());
     }
 }
