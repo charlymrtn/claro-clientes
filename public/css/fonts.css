@@ -6670,42 +6670,34 @@
 }
 
 .mdi-rotate-45 {
-  -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
 
 .mdi-rotate-90 {
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .mdi-rotate-135 {
-  -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
 }
 
 .mdi-rotate-180 {
-  -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .mdi-rotate-225 {
-  -webkit-transform: rotate(225deg);
   transform: rotate(225deg);
 }
 
 .mdi-rotate-270 {
-  -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .mdi-rotate-315 {
-  -webkit-transform: rotate(315deg);
   transform: rotate(315deg);
 }
 
 .mdi-flip-horizontal {
-  -webkit-transform: scaleX(-1);
   transform: scaleX(-1);
   -webkit-filter: FlipH;
           filter: FlipH;
@@ -6713,7 +6705,6 @@
 }
 
 .mdi-flip-vertical {
-  -webkit-transform: scaleY(-1);
   transform: scaleY(-1);
   -webkit-filter: FlipV;
           filter: FlipV;
