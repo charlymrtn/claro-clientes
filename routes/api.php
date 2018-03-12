@@ -9,4 +9,3 @@ require base_path('routes/api/admin/admin.php');
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-
