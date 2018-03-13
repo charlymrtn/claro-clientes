@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        // Comando para otimizar reemplazando el anterior de laravel 5.5
+        Commands\OptimizeCommand::class,
     ];
 
     /**
