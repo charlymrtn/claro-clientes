@@ -6,7 +6,7 @@ $factory->define(App\Models\Comercio::class, function (Faker\Generator $faker) {
         'uuid' => Webpatser\Uuid\Uuid::generate(4)->string,
         'comercio_nombre' => $faker->company,
         'comercio_correo' =>  $faker->unique()->safeEmail,
-        'comercio_contrasena' => $faker->password,
+        //'comercio_contrasena' => $faker->password,
         'contacto_nombre' => $faker->name,
         'contacto_telefono_empresa' => $faker->tollFreePhoneNumber,
         'contacto_correo' =>  $faker->unique()->safeEmail,

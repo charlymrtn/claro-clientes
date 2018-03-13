@@ -15,11 +15,10 @@ class ComercioTableSeeder extends Seeder
     {
         // Inserta valores iniciales
         Comercio::create([
-            'id' => 1,
             'uuid' => '176f76a8-2670-4288-9800-1dd5f031a57e',
             'comercio_nombre' => 'Claro Pagos',
             'comercio_correo' =>  'admin@claropagos.com',
-            'comercio_contrasena' => Hash::make('123456'),
+            //'comercio_contrasena' => Hash::make('123456'),
             'contacto_nombre' => 'Claro Pagos',
             'contacto_telefono_empresa' => '55 5555-5555',
             'contacto_correo' =>  'admin@claropagos.com',

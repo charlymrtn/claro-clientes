@@ -20,7 +20,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'activo', 'avatar', 'apellido_paterno', 'apellido_materno'
+        'name', 'email', 'password', 'activo', 'avatar', 'apellido_paterno', 'apellido_materno', 'comercio_uuid'
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
 
     /**
@@ -40,6 +40,18 @@ class User extends Authenticatable
     protected $dates = [
         'deleted_at'
     ];
+
+    /**
+     * Relaciones ===========================================
+     */
+
+    /**
+     * Los usuarios pertenecen a un comercio
+     */
+    public function comercio()
+    {
+        return $this->belongsTo('App\Models\Comercio', 'comercio_uuid', 'uuid');
+    }
 
     /**
      * Atributos a ignorar en bitácora de actividad. spatie/laravel-activity

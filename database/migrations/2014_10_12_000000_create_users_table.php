@@ -25,6 +25,9 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+            // Referencias
+            $table->string('comercio_uuid')->nullable();
+
         });
 
     }

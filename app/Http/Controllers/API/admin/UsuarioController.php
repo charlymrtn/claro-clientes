@@ -21,23 +21,15 @@ class UsuarioController extends Controller
     protected $mUsuario;
 
     /**
-     * ClientRepository instance.
-     *
-     * @var \Laravel\Passport\ClientRepository
-     */
-    protected $oClientRepository;
-
-    /**
      * Create a client controller instance.
      *
      * @param App\Models\User $usuario
      * @param \Laravel\Passport\ClientRepository $client
      * @return void
      */
-    public function __construct(User $usuario, ClientRepository $client)
+    public function __construct(User $usuario)
     {
         $this->mUsuario = $usuario;
-        $this->oClientRepository = $client;
     }
 
     /**
@@ -55,7 +47,7 @@ class UsuarioController extends Controller
                 'comercio_uuid' => 'uuid|size:36',
                 // Datos de la paginación y filtros
                 'per_page' => 'numeric|between:5,100',
-                'order' => 'max:30|in:id,name,email,activo,comercio_uuid,comercio_nombre,created_at,updated_at,deleted_at',
+                'order' => 'max:30|in:id,name,email,activo,created_at,updated_at,deleted_at',
                 'search' => 'max:100',
                 'deleted' => 'in:no,yes,only',
                 'sort' => 'in:asc,desc',
@@ -69,6 +61,7 @@ class UsuarioController extends Controller
             $sComercio = $oRequest->input('comercio_uuid', false);
             $cUsuarios = $this->mUsuario
                 ->withTrashed()
+                //->with('comercio:id,uuid')
                 ->where(
                     function ($q) use ($sComercio) {
                         if (!empty($sComercio)) {
@@ -82,9 +75,7 @@ class UsuarioController extends Controller
                         if ($sFiltro !== false) {
                             return $q
                                 ->orWhere('name', 'like', "%$sFiltro%")
-                                ->orWhere('email', 'like', "%$sFiltro%")
-                                ->orWhere('comercio_uuid', 'like', "%$sFiltro%")
-                                ->orWhere('comercio_nombre', 'like', "%$sFiltro%");
+                                ->orWhere('email', 'like', "%$sFiltro%");
                         }
                     }
                 )
@@ -137,18 +128,17 @@ class UsuarioController extends Controller
                 'email' => 'required|unique:users,email',
                 'descripcion' => 'max:255',
                 'comercio_uuid' => 'required|uuid|size:36',
-                'comercio_nombre' => 'max:255',
-                'api_client_nombre' => 'max:255',
+                'password' => 'required|min:2|max:255',
             ]);
             if ($oValidator->fails()) {
                 return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
             }
             // Agrega valores
-            $oRequest->merge(['password' => Hash::make(str_random(24))]);
+            $oRequest->merge([
+                // 'password' => Hash::make(str_random(24))
+            ]);
             // Crea usuario
             $oUsuario = User::create($oRequest->all());
-            // Crea cliente API
-            $this->oClientRepository->create($oUsuario->id, $oRequest->input('api_client_nombre', 'API Personal Access Client'), '/auth/callback', 1);
             // Regresa resultados
             return ejsend_success(['usuario' => $oUsuario]);
         } catch (\Exception $e) {
@@ -174,7 +164,7 @@ class UsuarioController extends Controller
                 return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
             }
             // Busca usuario (borrados y no borrados)
-            $oUsuario = $this->mUsuario->withTrashed()->with('clients', 'tokens')->find($id);
+            $oUsuario = $this->mUsuario->withTrashed()->with('clients', 'comercio')->find($id);
             if ($oUsuario == null) {
                 Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Usuario no encontrado');
                 return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrado.'], 404);
@@ -225,7 +215,6 @@ class UsuarioController extends Controller
                 'activo' => 'boolean',
                 'descripcion' => 'max:255',
                 'comercio_uuid' => 'uuid|size:36',
-                'comercio_nombre' => 'max:255',
             ]);
             if ($oValidator->fails()) {
                 return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);

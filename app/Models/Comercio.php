@@ -12,14 +12,15 @@ class Comercio extends Model
 {
 
     // Traits
-    use Notifiable, SoftDeletes, LogsActivity;
+    use Notifiable, SoftDeletes;
+    //use Notifiable, SoftDeletes, LogsActivity; // LogsActivity no funciona con columnas con id de diferente tipo
 
     // Nombre de la tabla
     protected $table = 'comercio';
 
     // Atributos
-    //protected $primaryKey = 'uuid';
-    //public $incrementing = false;
+    protected $primaryKey = 'uuid';
+    public $incrementing = false;
 
     /**
      * Atributos modificables
@@ -39,6 +40,15 @@ class Comercio extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'comercio_contrasena',
+    ];
+
+    /**
      * The attributes that should be mutated to dates.
      *
      * @var array
@@ -54,7 +64,9 @@ class Comercio extends Model
     {
         parent::boot();
         self::creating(function ($model) {
-            $model->uuid = (string) Uuid::generate(4);
+            if (empty($model->uuid)) {
+                $model->uuid = (string) Uuid::generate(4);
+            }
         });
     }
     /**
@@ -90,5 +102,14 @@ class Comercio extends Model
     {
         return $this->belongsTo('App\Models\ActividadComercial');
     }
+
+    /**
+     * Usuarios del comercio
+     */
+    public function usuarios()
+    {
+        return $this->hasMany('App\Models\User', 'comercio_uuid', 'uuid');
+    }
+
 
 }

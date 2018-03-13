@@ -14,11 +14,10 @@ class CreateComercioTable extends Migration
     public function up()
     {
         Schema::connection('mysql_sa')->create('comercio', function (Blueprint $table) {
-            $table->increments('id');
             $table->uuid('uuid')->unique();
             $table->string('comercio_nombre');
             $table->string('comercio_correo');
-            $table->string('comercio_contrasena');
+            //$table->string('comercio_contrasena');
             $table->string('contacto_nombre');
             $table->string('contacto_telefono_empresa');
             $table->string('contacto_correo');
