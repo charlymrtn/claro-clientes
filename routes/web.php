@@ -18,8 +18,7 @@ Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'middleware' =>
     require base_path('routes/web/clientes/clientes.php');
 });
 
-// Que es esto?
-//Route::get('/api/usuario', 'Admin\API\UsuarioController@index');
-//Route::get('/api/usuario/{id}', 'Admin\API\UsuarioController@show');
-//Route::post('/api/usuario/{id}', 'Admin\API\UsuarioController@update');
-
+// Admin
+Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'permission:accesar backend']], function () {
+    require base_path('routes/web/admin/admin.php');
+});

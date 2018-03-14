@@ -14,6 +14,7 @@ class CreateTransaccionTable extends Migration
     public function up()
     {
         Schema::connection('mysql_sa')->create('transaccion', function (Blueprint $table) {
+            // Identificador
             $table->uuid('uuid');
             //Catalogos
             $table->uuid('comercio_uuid');
