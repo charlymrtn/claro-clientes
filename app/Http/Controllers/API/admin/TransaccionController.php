@@ -80,8 +80,8 @@ class TransaccionController extends Controller
     {
         // Muestra el recurso solicitado
         try {
-            $oValidator = Validator::make(['id' => $uuid], [
-                '$uuid' => 'required|uuid|size:36',
+            $oValidator = Validator::make(['uuid' => $uuid], [
+                'uuid' => 'required|uuid|size:36',
             ]);
             if ($oValidator->fails()) {
                 return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
@@ -89,10 +89,10 @@ class TransaccionController extends Controller
             // Busca registro
             $oTransaccion = $this->mTransaccion->find($uuid);
             if ($oTransaccion == null) {
-                Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Comercio no encontrado');
+            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
                 return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrado.'], 404);
             }
-            // Regresa comercio con usuarios
+            // Regresa transaccion con usuarios
             return ejsend_success(['transaccion' => $oTransaccion]);
         } catch (\Exception $e) {
             // Registra error
@@ -120,7 +120,7 @@ class TransaccionController extends Controller
             }
             // Agrega valores
             $oRequest->merge([
-                'comercio_uuid' => $oRequest->input('comercio'),
+                'transaccion_uuid' => $oRequest->input('transaccion'),
                 'transaccion_estatus_id' => $this->mTransaccionEstatus->where('indice', $oRequest->input('estatus'))->value('id'),
                 'pais_id' => $this->mPais->where('iso_a3', $oRequest->input('pais'))->value('id'),
                 'moneda_id' => $this->mMoneda->where('iso_a3', $oRequest->input('moneda'))->value('id'),
@@ -139,59 +139,59 @@ class TransaccionController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $oRequest
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $oRequest, $id): JsonResponse
+    public function update(Request $oRequest, $uuid): JsonResponse
     {
         // Valida id
-        $oValidator = Validator::make(['id' => $id], [
-            'id' => 'required|uuid|size:36',
+        $oValidator = Validator::make(['uuid' => $uuid], [
+            'uuid' => 'required|uuid|size:36',
         ]);
         if ($oValidator->fails()) {
             return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
         }
-        // Busca comercio
-        $oComercio = $this->mComercio->with('usuarios')->find($id);
-        if ($oComercio == null) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Comercio no encontrado');
-            return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrado.'], 404);
+        // Busca transaccion
+        $oTransaccion = $this->mTransaccion->find($uuid);
+        if ($oTransaccion == null) {
+            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
+            return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrada.'], 404);
         }
         // @todo: Validar datos de entrada
         // Actualiza usuario
-        $oComercio->update($request->all());
-        return ejsend_success(['comercio' => $oComercio]);
+        $oTransaccion->update($request->all());
+        return ejsend_success(['transaccion' => $oTransaccion]);
     }
 
     /**
      * Borra el modelo.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function delete($id): JsonResponse
+    public function delete($uuid): JsonResponse
     {
         // Valida id
-        $oValidator = Validator::make(['id' => $id], [
-            'id' => 'required|uuid|size:36',
+        $oValidator = Validator::make(['uuid' => $uuid], [
+            'uuid' => 'required|uuid|size:36',
         ]);
         if ($oValidator->fails()) {
             return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
         }
-        // Busca comercio
-        $oComercio = $this->mComercio->with('usuarios')->find($id);
-        if ($oComercio == null) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Comercio no encontrado');
+        // Busca transaccion
+        $oTransaccion = $this->mTransaccion->find($uuid);
+        if ($oTransaccion == null) {
+            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
             return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrado.'], 404);
         }
         // Borra usuario
         try {
             // Primero se actualiza en campo activo a 0
-            $oComercio->update(['activo' => 0]);
-            $oComercio->delete();
-            // @todo: Inhabilita usuarios del comercio
+            $oTransaccion->update(['activo' => 0]);
+            $oTransaccion->delete();
+            // @todo: Inhabilita usuarios del transaccion
             // Regresa resultado
-            return ejsend_success(['comercio' => $oComercio]);
+            return ejsend_success(['transaccion' => $oTransaccion]);
         } catch (\Exception $e) {
             Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
@@ -201,29 +201,29 @@ class TransaccionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id): JsonResponse
+    public function destroy($uuid): JsonResponse
     {
         // Valida id
-        $oValidator = Validator::make(['id' => $id], [
-            'id' => 'required|uuid|size:36',
+        $oValidator = Validator::make(['uuid' => $uuid], [
+            'uuid' => 'required|uuid|size:36',
         ]);
         if ($oValidator->fails()) {
             return ejsend_fail(['code' => 400, 'type' => 'Parámetros', 'message' => 'Error en parámetros de entrada.'], 400, ['errors' => $oValidator->errors()]);
         }
-        // Busca comercio
-        $oComercio = $this->mComercio->with('usuarios')->find($id);
-        if ($oComercio == null) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Comercio no encontrado');
+        // Busca transaccion
+        $oTransaccion = $this->mTransaccion->find($uuid);
+        if ($oTransaccion == null) {
+            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
             return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrado.'], 404);
         }
         // Borra usuario
         try {
             // Primero se actualiza en campo activo a 0
-            $oComercio->forceDelete();
-            // @todo: Borralita usuarios del comercio
+            $oTransaccion->forceDelete();
+            // @todo: Borralita usuarios del transaccion
             // Regresa resultado
             return ejsend_success([], 204);
         } catch (\Exception $e) {
