@@ -14,7 +14,7 @@ class Transaccion extends Model
 
     //Atributos
     protected $fillable = [
-        'uuid', 'comercio_id', 'prueba', 'operacion', 'transaccion_estatus_id', 'pais_id', 'moneda_id', 'monto',
+        'uuid', 'comercio_uuid', 'prueba', 'operacion', 'transaccion_estatus_id', 'pais_id', 'moneda_id', 'monto',
         'forma_pago', 'datos_pago', 'datos_antifraude', 'datos_comercio', 'datos_claropagos', 'datos_procesador',
         'datos_destino'
     ];
@@ -24,6 +24,7 @@ class Transaccion extends Model
      * @var string
      */
     public $incrementing = 'false';
+    protected $primaryKey = 'uuid';
 
     /**
      * Relaciones
@@ -34,7 +35,7 @@ class Transaccion extends Model
      */
     public function comercio()
     {
-        return $this->belongsTo('App\Models\Comercio');
+        return $this->belongsTo('App\Models\Comercio', 'uuid', 'comercio_uuid');
     }
     /**
      * Estatus de transacción

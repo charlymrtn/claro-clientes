@@ -15,6 +15,7 @@ class CreateTransaccionEstatusTable extends Migration
     {
         Schema::connection('mysql_sa')->create('transaccion_estatus', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('indice', 30)->unique();
             $table->string('nombre', 30);
             $table->string('descripcion', 80);
             $table->string('color', 50);

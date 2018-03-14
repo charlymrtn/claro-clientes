@@ -10,5 +10,7 @@ Route::group(['guard' => 'api', 'namespace' => 'API\Admin', 'prefix' => 'admin',
     Route::apiResource('/usuario', 'UsuarioController');
     // Comercios
     Route::apiResource('/comercio', 'ComercioController');
+    // Transacciones
+    Route::apiResource('/transaccion', 'TransaccionController');
 
 });

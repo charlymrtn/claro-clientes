@@ -17,7 +17,7 @@ class TransaccionEstatus extends Model
 
     // Atributos
     protected $fillable = [
-        'nombre', 'descripcion', 'color'
+        'nombre', 'descripcion', 'color', 'indice'
     ];
 
     /**

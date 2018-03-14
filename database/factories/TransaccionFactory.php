@@ -6,11 +6,11 @@ $factory->define(App\Models\Transaccion::class, function (Faker\Generator $faker
     // Obtiene datos para no generar objetos extra
 
     // Comercios
-    $aComercioIds = \App\Models\Comercio::select('id')->get()->toArray();
+    $aComercioIds = \App\Models\Comercio::select('uuid')->get()->toArray();
     if (empty($aComercioIds)) {
-        $iComercioId = factory(App\Models\Comercio::class)->create()->id;
+        $iComercioId = factory(App\Models\Comercio::class)->create()->uuid;
     } else {
-        $iComercioId = $faker->randomElement($aComercioIds)["id"];
+        $iComercioId = $faker->randomElement($aComercioIds)["uuid"];
     }
 
     // Monedas
@@ -97,7 +97,7 @@ $factory->define(App\Models\Transaccion::class, function (Faker\Generator $faker
         'datos_procesador' => $jDatosProcesador,
         'datos_destino' => $faker->randomElement(['{}']),
         // Catálogos
-        'comercio_id' => $iComercioId,
+        'comercio_uuid' => $iComercioId,
         'transaccion_estatus_id' => $iTransaccionEstatusId,
         'pais_id' => $aMoneda['pais_id'],
         'moneda_id' => $aMoneda['id'],

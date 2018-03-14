@@ -15,16 +15,16 @@ class CreateTransaccionTable extends Migration
     {
         Schema::connection('mysql_sa')->create('transaccion', function (Blueprint $table) {
             $table->uuid('uuid');
-            $table->integer('comercio_id');
-            $table->boolean('prueba');
-            $table->enum('operacion', ['pago', 'preautorizacion', 'autorizacion', 'cancelacion']);
             //Catalogos
+            $table->uuid('comercio_uuid');
             $table->integer('transaccion_estatus_id');
             $table->integer('pais_id');
             $table->integer('moneda_id');
-
+            // Datos de transaccion
+            $table->boolean('prueba');
             $table->decimal('monto', 19, 4);
-            $table->enum('forma_pago', ['tarjeta-credito', 'tarjeta-debito', 'telmex-recibo', 'paypal', 'applepay', 'androidpay', 'visa-checkout', 'masterpass']);
+            $table->enum('operacion', ['pago', 'preautorizacion', 'autorizacion', 'cancelacion']);
+            $table->enum('forma_pago', ['tarjeta', 'telmex-recibo', 'telcel-recibo', 'paypal', 'applepay', 'androidpay', 'visa-checkout', 'masterpass']);
             $table->json('datos_pago');
             $table->json('datos_antifraude');
             $table->json('datos_comercio');
@@ -36,7 +36,7 @@ class CreateTransaccionTable extends Migration
             $table->timestamps();
 
             // Indices
-            $table->index(['comercio_id', 'created_at', 'forma_pago']);
+            $table->index(['comercio_uuid', 'created_at', 'forma_pago']);
             $table->index(['created_at', 'forma_pago']);
 
         });
