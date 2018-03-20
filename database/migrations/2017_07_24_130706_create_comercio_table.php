@@ -14,7 +14,7 @@ class CreateComercioTable extends Migration
     public function up()
     {
         Schema::connection('mysql_sa')->create('comercio', function (Blueprint $table) {
-            $table->uuid('uuid')->unique();
+            $table->uuid('uuid');
             $table->string('comercio_nombre');
             $table->string('comercio_correo');
             //$table->string('comercio_contrasena');
@@ -39,13 +39,13 @@ class CreateComercioTable extends Migration
             $table->string('facturacion_municipio');
             $table->string('facturacion_ciudad');
             // -------------------------------------------------------------------------
-            $table->enum('estatus', ['nuevo', 'activo', 'inhabilitado']);
-            $table->boolean('activo')->default(true);
+            $table->enum('estatus', ['nuevo', 'activo', 'suspendido', 'inseguro', 'cerrado']);
             // Traits
             $table->timestamps();
             $table->softDeletes();
             // -------------------------------------------------------------------------
             // Índices
+            $table->primary('uuid');
         });
     }
 
