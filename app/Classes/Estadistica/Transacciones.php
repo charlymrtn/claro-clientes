@@ -961,7 +961,7 @@ class Transacciones
 
         if ($oTrx->isEmpty()) {
             return [
-                'mes' => $oFecha->copy()->month(),
+                'mes' => $oFecha->copy()->month,
                 'total' => 0,
                 'monto' => 0,
             ];

@@ -38,7 +38,7 @@ class TransaccionController extends Controller
         $aTotalTransaccionesDia = $oEstadisticasTransacciones->total_dia();
         $aTotalTransaccionesMes = $oEstadisticasTransacciones->total_mes();
         // Carga vista
-        return view('admin/transaccion/index')->with([
+        return view('clientes/transaccion/index')->with([
             'aTotalTransaccionesDia' => $aTotalTransaccionesDia,
             'aTotalTransaccionesMes' => $aTotalTransaccionesMes,
             'alerts' => Alert::all()]);

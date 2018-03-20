@@ -20,11 +20,27 @@ class Transaccion extends Model
     ];
 
     /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'transaccion_estatus_id', 'pais_id', 'moneda_id'
+    ];
+
+    /**
      * Se elimina autoincrementable
      * @var string
      */
     public $incrementing = 'false';
     protected $primaryKey = 'uuid';
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
     /**
      * Relaciones
@@ -37,12 +53,15 @@ class Transaccion extends Model
     {
         return $this->belongsTo('App\Models\Comercio', 'uuid', 'comercio_uuid');
     }
+
     /**
      * Estatus de transacción
      */
-    public function transaccion_estatus()
+    public function estatus()
     {
-        return $this->belongsTo('App\Models\TransaccionEstatus');
+        return $this->belongsTo('App\Models\TransaccionEstatus', 'transaccion_estatus_id')->withDefault([
+            'name' => 'Desconocido', 'descripcion' => 'Estatus desconocido', 'color' => '#dd4b39', 'indice' => 'desconocido'
+        ]);
     }
 
     /**
@@ -50,7 +69,7 @@ class Transaccion extends Model
      */
     public function pais()
     {
-        return $this->belongsTo('App\Models\Pais');
+        return $this->belongsTo('App\Models\Pais', 'pais_id', 'id');
     }
 
     /**

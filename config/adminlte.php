@@ -115,7 +115,7 @@ return [
         ],
         [
             'text' => 'Transacciones',
-            'url' => 'admin/transaccion',
+            'url' => 'clientes/transaccion',
             'icon' => 'exchange',
             'can' => 'listar transacciones clientes',
         ],
