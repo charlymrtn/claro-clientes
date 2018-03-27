@@ -189,6 +189,10 @@ return [
         //Image
         Intervention\Image\ImageServiceProvider::class,
 
+	//Laravel Spanish
+	Laraveles\Spanish\SpanishServiceProvider::class,
+
+
     ],
 
     /*
