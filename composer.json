@@ -2,7 +2,7 @@
     "name": "claropagos/clientes",
     "description": "Claro Pagos Clientes",
     "keywords": ["claro", "claropagos"],
-    "license": "MIT",
+    "license": "Copyright",
     "type": "project",
     "require": {
         "php": ">=7.1",

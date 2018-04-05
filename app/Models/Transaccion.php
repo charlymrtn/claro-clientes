@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Log;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
@@ -33,7 +34,7 @@ class Transaccion extends Model
      * @var string
      */
     public $incrementing = 'false';
-    protected $primaryKey = 'uuid';
+    //protected $primaryKey = 'uuid';
 
     /**
      * The attributes that should be mutated to dates.
@@ -51,7 +52,7 @@ class Transaccion extends Model
      */
     public function comercio()
     {
-        return $this->belongsTo('App\Models\Comercio', 'uuid', 'comercio_uuid');
+        return $this->belongsTo('App\Models\Comercio');
     }
 
     /**
