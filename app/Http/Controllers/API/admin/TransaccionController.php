@@ -120,7 +120,7 @@ class TransaccionController extends Controller
             }
             // Agrega valores
             $oRequest->merge([
-                'comercio_uuid' => $oRequest->input('comercio'),
+                'comercio_uuid' => $oRequest->input('comercio_uuid'),
                 'transaccion_estatus_id' => $this->mTransaccionEstatus->where('indice', $oRequest->input('estatus'))->value('id'),
                 'pais_id' => $this->mPais->where('iso_a3', $oRequest->input('pais'))->value('id'),
                 'moneda_id' => $this->mMoneda->where('iso_a3', $oRequest->input('moneda'))->value('id'),
