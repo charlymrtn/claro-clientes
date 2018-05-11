@@ -15,9 +15,24 @@ class Transaccion extends Model
 
     //Atributos
     protected $fillable = [
-        'uuid', 'comercio_uuid', 'prueba', 'operacion', 'transaccion_estatus_id', 'pais_id', 'moneda_id', 'monto',
-        'forma_pago', 'datos_pago', 'datos_antifraude', 'datos_comercio', 'datos_claropagos', 'datos_procesador',
-        'datos_destino'
+        'uuid', // Id de la transacción en Claro Pagos
+        'comercio_uuid', // Id del comercio
+        'prueba',  // Booleano. Es prueba la transacción
+        'operacion',
+        'monto',
+        'forma_pago',
+        // Catálogos (pseudo por velocidad)
+        'transaccion_estatus_id',
+        'pais_id',
+        'moneda_id',
+        // Objetos JSON
+        'datos_pago',
+        'datos_comercio',
+        'datos_destino',
+        // Eventos JSON
+        'datos_antifraude',
+        'datos_procesador',
+        'datos_claropagos',
     ];
 
     /**
@@ -34,7 +49,8 @@ class Transaccion extends Model
      * @var string
      */
     public $incrementing = 'false';
-    //protected $primaryKey = 'uuid';
+    protected $primaryKey = 'uuid';
+    protected $keyType = 'uuid';
 
     /**
      * The attributes that should be mutated to dates.
@@ -42,6 +58,20 @@ class Transaccion extends Model
      * @var array
      */
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+
+    /**
+     * Atributos mutables.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'datos_pago' => 'array',
+        'datos_comercio' => 'array',
+        'datos_claropagos' => 'array',
+        'datos_destino' => 'array',
+        'datos_antifraude' => 'array',
+        'datos_procesador' => 'array',
+    ];
 
     /**
      * Relaciones

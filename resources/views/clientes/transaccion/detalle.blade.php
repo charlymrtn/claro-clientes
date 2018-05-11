@@ -13,10 +13,16 @@
 @stop
 @section('content')
                                             <?php
-                                            $oDatosPago = json_decode($transaccion->datos_pago);
-                                            $oDatosAntifraude = json_decode($transaccion->datos_antifraude);
-                                            $oDatosProcesador = json_decode($transaccion->datos_procesador);
-                                            $oDatosComercio = json_decode($transaccion->datos_comercio);
+        $oDatosPago = $transaccion->datos_pago;
+        $oDatosAntifraude = $transaccion->datos_antifraude;
+        $oDatosProcesador = $transaccion->datos_procesador;
+        $oDatosComercio = $transaccion->datos_comercio;
+        $oDatosClaroPagos = $transaccion->datos_claropagos;
+
+//                                            $oDatosPago = json_decode($transaccion->datos_pago);
+//                                            $oDatosAntifraude = json_decode($transaccion->datos_antifraude);
+//                                            $oDatosProcesador = json_decode($transaccion->datos_procesador);
+//                                            $oDatosComercio = json_decode($transaccion->datos_comercio);
                                             ?>
         <div class="row">
             <div class="col-md-12">
