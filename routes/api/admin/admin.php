@@ -2,9 +2,11 @@
 
 /**
  *  @todo: Cambiar a scope:blablabla . Verificar el fallo de no usuario en  app\Http\Middleware\CheckClientCredentials.php
+ *          'middleware' => ['scope:superadmin']
+ *          'middleware' => ['client.credentials:superadmin']
+ *          'middleware' => ['client.credentials', 'scope:superadmin']
  */
-//Route::group(['guard' => 'api', 'namespace' => 'API\admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['scope:superadmin']], function () {
-Route::group(['guard' => 'api', 'namespace' => 'API\Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['client.credentials:superadmin']], function () {
+Route::group(['namespace' => 'API\Admin', 'prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['client.credentials:superadmin']], function () {
 
     // Usuarios
     Route::apiResource('/usuario', 'UsuarioController');
@@ -12,5 +14,7 @@ Route::group(['guard' => 'api', 'namespace' => 'API\Admin', 'prefix' => 'admin',
     Route::apiResource('/comercio', 'ComercioController');
     // Transacciones
     Route::apiResource('/transaccion', 'TransaccionController');
+    //Ping
+    Route::get('/ping', 'PingController@index');
 
 });

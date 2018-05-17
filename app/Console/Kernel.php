@@ -13,6 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        // Comando de pruebas
+        Commands\TestappCommand::class,
+        // Comando de pruebas de sistema
+        Commands\HealthcheckCommand::class,
         // Comando para otimizar reemplazando el anterior de laravel 5.5
         Commands\OptimizeCommand::class,
     ];

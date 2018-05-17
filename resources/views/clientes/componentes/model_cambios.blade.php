@@ -27,7 +27,7 @@
                     <div class="timeline-body">
                         <b>Objeto</b>:
                         @if($item->subject_type == 'App\Models\User')
-                            <a href="{{ route('usuario.index') }}/{{ $item->subject_id }}">Usuario #{{ $item->subject_id }}</a>
+                            <a href="{{ route('clientes') }}/{{ $item->subject_id }}">Usuario #{{ $item->subject_id }}</a>
                         @else
                             {{ $item->subject_type }} #{{ $item->subject_id }}
                         @endif

@@ -9,7 +9,7 @@
         @if($actividad->causer_type === null)
             Sistema
         @elseif($actividad->causer_type == 'App\Models\User')
-            Usuario <a href="{{ route('usuario.index') }}/{{ $actividad->causer_id }}"><span class="badge">#{{ $actividad->causer_id }}</span></a>
+            Usuario <a href="{{ route('clientes') }}/{{ $actividad->causer_id }}"><span class="badge">#{{ $actividad->causer_id }}</span></a>
         @else
             {{ str_replace('App\Models\\', '', $actividad->causer_type) }} <span class="badge">#{{ $actividad->causer_id }}</span>
         @endif
@@ -17,7 +17,7 @@
         @if($actividad->subject_type === null)
             <br><b><i class="fa fa-fw fa-cube"></i> Objeto</b>: {{ str_replace('App\Models\\', '', $actividad->subject_type) }} <span class="badge">#{{ $actividad->subject_id }}</span>
         @elseif($actividad->subject_type == 'App\Models\User')
-            <br><b><i class="fa fa-fw fa-cube"></i> Objeto</b>: Usuario <a href="{{ route('usuario.index') }}/{{ $actividad->subject_id }}"><span class="badge">#{{ $actividad->subject_id }}</span></a>
+            <br><b><i class="fa fa-fw fa-cube"></i> Objeto</b>: Usuario <a href="{{ route('clientes') }}/{{ $actividad->subject_id }}"><span class="badge">#{{ $actividad->subject_id }}</span></a>
         @endif
 
         <?php $aCambios = $actividad->changes()->toArray(); ?>

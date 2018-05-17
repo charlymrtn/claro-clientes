@@ -139,6 +139,8 @@ class UsuarioController extends Controller
             ]);
             // Crea usuario
             $oUsuario = User::create($oRequest->all());
+            // Asigna permisos
+            $oUsuario->assignRole('cliente');
             // Regresa resultados
             return ejsend_success(['usuario' => $oUsuario]);
         } catch (\Exception $e) {

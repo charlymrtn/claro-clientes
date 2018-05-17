@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Clientes;
 
-use Spatie\Activitylog\Models\Activity;
+use Log;
 use view;
+use Validator;
+use Spatie\Activitylog\Models\Activity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Prologue\Alerts\Facades\Alert;
 use \App\Classes\Estadistica\Transacciones as EstadisticasTransacciones;
 use App\Models\Transaccion;
 use App\Models\TransaccionEstatus;
-use Validator;
 
 class TransaccionController extends Controller
 {
@@ -83,20 +84,21 @@ class TransaccionController extends Controller
                 return response()->json(["status" => "fail", "data" => ["errors" => $oValidator->errors()]]);
             }
             // Busca transaccion
+            //$oTransaction = $this->mTransaccion->with(['estatus', 'moneda', 'pais'])->where('uuid', $id)->get()->first();
             $oTransaction = $this->mTransaccion->where('uuid', $id)->get()->first();
             if ($oTransaction == null) {
-                return view('admin/errores/no_encontrado')->with(['model' => 'Transaccion', 'id' => $id]);
+                return view('clientes/errores/no_encontrado')->with(['model' => 'Transaccion', 'id' => $id]);
             } else {
                 //Obtiene histórico
                 $historico = Activity::where([['subject_id', '=', $id], ['subject_type', '=', 'App\Models\Transaccion']])->get();
                 // Muestra plantilla
-                return view('admin/transaccion/detalle')->with(['transaccion' => $oTransaction, 'historico' => $historico, 'alerts' => Alert::all()]);
+                return view('clientes/transaccion/detalle')->with(['transaccion' => $oTransaction, 'historico' => $historico, 'alerts' => Alert::all()]);
             }
         } catch (\Exception $e) {
             // Registra error
             Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
             // Muestra plantilla de error
-            return view('admin/errores/excepcion')->with(['exception' => $e]);
+            return view('clientes/errores/excepcion')->with(['exception' => $e]);
         }
     }
 
