@@ -73,8 +73,7 @@
 
 </div>
 
-<link rel="stylesheet" type="text/css" href="{{ mix('/css/mix/charts.css') }}">
-<script type="text/javascript" src="{{ mix('/js/mix/charts.js') }}"></script>
+@include('clientes/partials/charts')
 <div class="row">
     <div class="col-md-8">
         <div class="box box-info">

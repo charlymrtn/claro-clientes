@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>ClaroPay - Clientes</title>
+        <title>ClaroPagos - Clientes</title>
 
         <script type="text/javascript" src="{{ mix('/js/mix/ui.js') }}"></script>
         <link rel="stylesheet" type="text/css" href="{{ mix('/css/mix/ui.css') }}">
@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('vendor/adminlte/css/auth.css') }}">
-</head>
+    </head>
     <body>
         <div class="flex-center position-ref full-height">
             <div class="content">
