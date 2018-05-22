@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/login.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('vendor/adminlte/plugins/iCheck/square/blue.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('vendor/adminlte/css/auth.css') }}">
+
 </head>
     <body>
         <div class="flex-center position-ref full-height">

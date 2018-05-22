@@ -22,3 +22,8 @@ Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'middleware' =>
 Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => ['auth', 'permission:accesar backend']], function () {
     require base_path('routes/web/admin/admin.php');
 });
+
+// Token
+Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'middleware' => ['auth', 'permission:accesar backend clientes']], function () {
+    require base_path('routes/web/clientes/token/token.php');
+});

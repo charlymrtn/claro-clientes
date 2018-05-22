@@ -133,6 +133,14 @@ return [
             'url'  => 'logout',
             'icon' => 'power-off',
         ],
+        //Tokens
+        'TOKEN',
+        [
+            'text' => 'Tokens',
+            'url'  => 'clientes/tokens',
+            'icon' => 'key',
+            'can' => 'ver perfil clientes',
+        ],
     ],
 
     /*
