@@ -11,10 +11,10 @@
 @section('content')
 <div class="row">
 
-    <!-- Monto de transacciones en el mes -->
-    @can('listar transacciones')
+    <!-- Número y monto de transacciones en el mes -->
+    @can('listar transacciones clientes')
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-red">
+        <div class="small-box bg-green">
             <div class="inner">
                 <h3>$ {{ number_format($aTotalTransaccionesDia['monto']) }}</h3>
                 <p>Monto transaccionado en el día</p>
@@ -25,12 +25,8 @@
             <a href="{{ route('transaccion.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
-    @endcan
-
-    <!-- Número de transacciones en el mes -->
-    @can('listar transacciones')
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
+        <div class="small-box bg-aqua">
             <div class="inner">
                 <h3>{{ number_format($aTotalTransaccionesDia['total']) }}</h3>
                 <p>Transacciones en el día</p>
@@ -43,10 +39,10 @@
     </div>
     @endcan
 
-    <!-- Número de comercios en el sistema -->
-    @can('listar comercios')
+    <!-- @todo: Número de tokens del usuario -->
+    @can('listar tokens clientes')
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-green">
+        <div class="small-box bg-red">
             <div class="inner">
                 <h3>{{ number_format(App\Models\Comercio::count()) }}</h3>
                 <p>Comercios</p>
@@ -62,7 +58,7 @@
     <!-- Número de usuarios en el sistema -->
     @can('listar usuarios')
     <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-aqua">
+        <div class="small-box bg-yellow">
             <div class="inner">
                 <h3>{{ number_format(App\Models\User::count()) }}</h3>
                 <p>Usuarios</p>
@@ -70,15 +66,14 @@
             <div class="icon">
                 <i class="ion ion-person"></i>
             </div>
-            <a href="{{ route('usuario.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('clientes') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     @endcan
 
 </div>
 
-<link rel="stylesheet" type="text/css" href="/css/mix/charts.css">
-<script type="text/javascript" src="/js/mix/charts.js"></script>
+@include('clientes/partials/charts')
 <div class="row">
     <div class="col-md-8">
         <div class="box box-info">
@@ -276,7 +271,7 @@
                 </ul>
             </div>
             <div class="box-footer text-center">
-                <a href="{{ route('usuario.index') }}" class="uppercase">Ver todos los usuarios</a>
+                <a href="{{ route('clientes') }}" class="uppercase">Ver todos los usuarios</a>
             </div>
         </div>
     </div>

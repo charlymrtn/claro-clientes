@@ -12,112 +12,166 @@
 @section('adminlte_js')
 @stop
 @section('content')
-                                            <?php
-                                            $oDatosPago = json_decode($transaccion->datos_pago);
-                                            $oDatosAntifraude = json_decode($transaccion->datos_antifraude);
-                                            $oDatosProcesador = json_decode($transaccion->datos_procesador);
-                                            $oDatosComercio = json_decode($transaccion->datos_comercio);
-                                            ?>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box" style="border-top-color:{{ $transaccion->estatus->color }};">
+                    <div class="box-header">
+                        <h3 class="box-title">Resumen</h3>
+                    </div>
+                    <div class="box-body box-profile">
+                        <span class="pull-right">
+                            <h3 class="no-margin-top"><span class="label" style="background-color:{{ $transaccion->estatus->color }};">{{ $transaccion->estatus->nombre }}</span></h3>
+                        </span>
+                        <h1 class="no-margin-top">$ {{ number_format($transaccion->monto, 2) }} <small>{{ $transaccion->moneda->iso_a3 }}</small></h1>
+                        <i class="fa fa-calendar"></i> &nbsp; {{ $transaccion->created_at }}
+                        <br>&nbsp;
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="box box-info">
+                    <div class="box-header">
+                        <h3 class="box-title">Forma de pago</h3>
+                    </div>
+                    <div class="box-body box-profile">
+                        @if ($transaccion->forma_pago == 'tarjeta')
+                            @if (!empty($transaccion->datos_pago['marca']))
+                                <span class="pull-right">
+                                    <h3 class="no-margin-top"><img src="/img/forma_pago/tarjeta/marca-{{ $transaccion->datos_pago['marca'] }}.png" width="75" height=""></h3>
+                                </span>
+                            @endif
+                            <h1 class="no-margin-top">  {{ ucfirst($transaccion->forma_pago ?? 'Desconocida') }}</h1>
+                            <i class="fa fa-credit-card"></i> &nbsp; {!! str_replace('*', ' &bull; ', $transaccion->datos_pago['pan'] ?? '-') !!}
+                            <br><i class="fa fa-user"></i> &nbsp; {{ $transaccion->datos_pago['nombre'] ?? '-' }}
+                        @else
+                            {{ ucfirst($transaccion->forma_pago) }}
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box box-default">
+                    <div class="box-header">
+                        <h3 class="box-title">Transacción</h3>
+                        <div class="box-body box-profile">
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <b>ID</b> <span class="pull-right">{{ $transaccion->uuid }}</span>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Operación</b> <span class="pull-right">{{ ucfirst($transaccion->operacion) }}</span>
+                                </li>
+                                @if ($transaccion->prueba)
+                                    <li class="list-group-item">
+                                        <b>Prueba</b> <span class="pull-right">{{ $transaccion->prueba ? 'Si' : 'No'}}</span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12">
                 <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Cobro</h3>
-                        <div class="box-body box-profile">
+                       <div class="box-body box-profile">
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
-                                    <b>UUID</b> <span class="pull-right">{{ $transaccion->uuid }}</span>
+                                    <b>Creado</b> <span class="pull-right">{{ $transaccion->created_at }}</span>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Monto</b> <span class="pull-right">$ {{ number_format($transaccion->monto, 2) }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Prueba</b> <span class="pull-right">{{ $transaccion->prueba }}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Operación</b> <span class="pull-right">{{ $transaccion->operacion }}</span>
+                                    <b>Moneda</b> <span class="pull-right">{{ $transaccion->moneda->nombre }} ({{ $transaccion->moneda->iso_a3 }})</span>
                                 </li>
                                 <li class="list-group-item" style="overflow:auto;">
                                     <b>Datos antifraude</b> <span class="pull-right">
-                                        Respuesta: {{ $oDatosAntifraude->response_code }}
-                                        <br>Mensaje: {{ $oDatosAntifraude->response_description }}
+                                        Respuesta: {{ $transaccion->datos_antifraude->codigo ?? 'Sin información' }}
+                                        <br>Mensaje: {{ $transaccion->datos_antifraude->descripcion  ?? 'Sin información' }}
                                     </span>
                                 </li>
                                 <li class="list-group-item" style="overflow:auto;">
-                                    <b>Datos Claro Pagos</b> <span class="pull-right">{{ $transaccion->datos_claropagos }}</span>
+                                    <b>Datos Claro Pagos</b> <span class="pull-right">
+                                    @empty($transaccion->datos_claropagos)
+                                        Sin datos
+                                    @else
+                                        {{ $transaccion->datos_claropagos }}
+                                    @endempty
+                                    </span>
                                 </li>
                                 <li class="list-group-item" style="overflow:auto;">
                                     <b>Datos Procesador</b> <span class="pull-right">
-                                        <?php
-                                            if ($transaccion->transaccion_estatus_id == 1) {
-                                                if (in_array($oDatosPago->marca, ['mastercard', 'visa'])) {
+                                        @empty($records)
+                                            No procesado
+                                        @else
+                                            <?php
+                                                if (in_array($transaccion->datos_pago['marca'], ['mastercard', 'visa'])) {
                                                     ?>
-                                                    Respuesta: {{ $oDatosProcesador->data->response_code }} ({{ $oDatosProcesador->status }})
-                                                    <br>Mensaje: {{ $oDatosProcesador->data->message }}
-                                                    <br>Número de autorización: {{ $oDatosProcesador->data->importantData->authNum }}
-                                                    <br>Número de orden: {{ $oDatosProcesador->data->importantData->orderId }}
-                                                    <br>Número de transaccion: {{ $oDatosProcesador->data->importantData->transactionId }}
+                                                    Respuesta: {{ $transaccion->datos_procesador->data->response_code }} ({{ $transaccion->datos_procesador->status }})
+                                                    <br>Mensaje: {{ $transaccion->datos_procesador->data->message }}
+                                                    <br>Número de autorización: {{ $transaccion->datos_procesador->data->importantData->authNum }}
+                                                    <br>Número de orden: {{ $transaccion->datos_procesador->data->importantData->orderId }}
+                                                    <br>Número de transaccion: {{ $transaccion->datos_procesador->data->importantData->transactionId }}
                                                     <?php
-                                                } else if ($oDatosPago->marca == 'amex') {
+                                                } else if ($transaccion->datos_pago['marca'] == 'amex') {
                                                     ?>
-                                                    Respuesta: {{ $oDatosProcesador->status_code }} ({{ $oDatosProcesador->status }})
-                                                    <br>Mensaje: {{ $oDatosProcesador->status_message }}
-                                                    <br>Número de autorización: {{ $oDatosProcesador->system_trace_num }}
+                                                    Respuesta: {{ $transaccion->datos_procesador->status_code }} ({{ $transaccion->datos_procesador->status }})
+                                                    <br>Mensaje: {{ $transaccion->datos_procesador->status_message }}
+                                                    <br>Número de autorización: {{ $transaccion->datos_procesador->system_trace_num }}
                                                     <?php
                                                 } else {
                                                     ?>
-                                                    <pre>{{ print_r($oDatosProcesador, true) }}</pre>
+                                                    <pre>{{ print_r($transaccion->datos_procesador, true) }}</pre>
                                                     <?php
                                                 }
-                                            } else {
-                                                ?>
-                                                    No procesado
-                                                <?php
-                                            }
-                                        ?>
+                                            ?>
+                                        @endempty
                                     </span>
                                 </li>
-                                <!--li class="list-group-item">
-                                    <b>Datos Destino</b> <span class="pull-right">{{ $transaccion->datos_destino }}</span>
-                                </li-->
                                 <li class="list-group-item">
                                     <b>Transaccion status id</b> <span class="pull-right">{{ $transaccion->transaccion_estatus_id }}</span>
                                 </li>
-                                <li class="list-group-item">
+                                <li class="list-group-item" style="overflow:auto;">
                                     <b>Pais</b> <span class="pull-right">{{ $transaccion->pais->nombre }}</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Moneda</b> <span class="pull-right">{{ $transaccion->moneda->nombre }} ({{ $transaccion->moneda->iso_a3 }})</span>
-                                </li>
-                                <li class="list-group-item">
-                                    <b>Creado</b> <span class="pull-right">{{ $transaccion->created_at }}</span>
                                 </li>
                                 <li class="list-group-item">
                                     <b>Actualizado</b> <span class="pull-right">{{ $transaccion->updated_at }}</span>
                                 </li>
                             </ul>
                         </div>
+
+
                     </div>
                 </div>
                 <div class="box box-default">
                     <div class="box-header">
                         <h3 class="box-title">Tarjeta</h3>
                         <div class="box-body box-profile">
-                            <ul class="list-group list-group-unbordered">
-                                <li class="list-group-item">
-                                    <b>Forma de pago</b> <span class="pull-right">
-                                        {{ $transaccion->forma_pago }}
-                                    </span>
-                                </li>
-                                <li class="list-group-item" style="overflow:auto;">
-                                        <b>Datos de pago</b> <span class="pull-right">
-                                        Tarjeta: {{ $oDatosPago->pan }}
-                                        <br>Marca: {{ $oDatosPago->marca }}
-                                        <br>Nombre: {{ $oDatosPago->nombre }}
-                                        <br>Hash: {{ $oDatosPago->pan_hash }}
-                                    </span>
-                                </li>
-                            </ul>
+                            @if ($transaccion->forma_pago == 'tarjeta')
+                                <ul class="list-group list-group-unbordered">
+                                    <li class="list-group-item">
+                                        <b>Tarjeta</b> <span class="pull-right">{!! str_replace('*', ' &bull; ', $transaccion->datos_pago['pan'] ?? '-') !!}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Marca</b> <span class="pull-right">{{ ucfirst($transaccion->datos_pago['marca'] ?? '-') }}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Nombre</b> <span class="pull-right">{{ $transaccion->datos_pago['nombre'] ?? '-' }}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Huella digital</b> <span class="pull-right">{{ $transaccion->datos_pago['pan_hash'] ?? '-' }}</span>
+                                    </li>
+                                </ul>
+                            @endif
+
                         </div>
                     </div>
                 </div>
@@ -127,22 +181,22 @@
                         <div class="box-body box-profile">
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
-                                    <b>Cliente ID</b> <span class="pull-right">{{ $oDatosComercio->cliente->id }}</span>
+                                    <b>Cliente ID</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['id'] ?? 'Desconocido' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Email</b> <span class="pull-right">{{ $oDatosComercio->cliente->email }}</span>
+                                    <b>Email</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['email'] ?? 'Desconocido' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Nombre comlpeto</b> <span class="pull-right">{{ $oDatosComercio->cliente->nombre }} {{ $oDatosComercio->cliente->apellido_paterno }} {{ $oDatosComercio->cliente->apellido_materno }}</span>
+                                    <b>Nombre comlpeto</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['nombre'] ?? '-' }} {{ $transaccion->datos_comercio['cliente']['apellido_paterno'] ?? '-' }} {{ $transaccion->datos_comercio['cliente']['apellido_materno'] ?? '-' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Teléfono</b> <span class="pull-right">{{ $oDatosComercio->cliente->telefono->codigo_area }} {{ $oDatosComercio->cliente->telefono->numero }}</span>
+                                    <b>Teléfono</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['telefono']['codigo_area'] ?? '-' }} {{ $transaccion->datos_comercio['cliente']['telefono']['numero'] ?? '-' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Género</b> <span class="pull-right">{{ $oDatosComercio->cliente->genero }}</span>
+                                    <b>Género</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['genero'] ?? 'Desconocido' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Fecha de nacimiento</b> <span class="pull-right">{{ $oDatosComercio->cliente->nacimiento ?? 'Desconocido' }}</span>
+                                    <b>Fecha de nacimiento</b> <span class="pull-right">{{ $transaccion->datos_comercio['cliente']['nacimiento'] ?? 'Desconocido' }}</span>
                                 </li>
                             </ul>
                         </div>
@@ -154,16 +208,16 @@
                         <div class="box-body box-profile">
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
-                                    <b>Pedido ID</b> <span class="pull-right">{{ $oDatosComercio->pedido->id }}</span>
+                                    <b>Pedido ID</b> <span class="pull-right">{{ $transaccion->datos_comercio['pedido']['id'] ?? '-' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Artículos</b> <span class="pull-right">{{ $oDatosComercio->pedido->articulos }}</span>
+                                    <b>Artículos</b> <span class="pull-right">{{ $transaccion->datos_comercio['pedido']['articulos'] ?? '-' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Total</b> <span class="pull-right">$ {{ $oDatosComercio->pedido->total }}</span>
+                                    <b>Total</b> <span class="pull-right">$ {{ $transaccion->datos_comercio['pedido']['total'] ?? '-' }}</span>
                                 </li>
                                 <li class="list-group-item">
-                                    <b>Peso</b> <span class="pull-right">{{ $oDatosComercio->pedido->peso }} Kg.</span>
+                                    <b>Peso</b> <span class="pull-right">{{ $transaccion->datos_comercio['pedido']['peso'] ?? '-' }} Kg.</span>
                                 </li>
                             </ul>
                         </div>

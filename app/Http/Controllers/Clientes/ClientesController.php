@@ -41,7 +41,8 @@ class ClientesController extends Controller
             'aTotalTransaccionesDia' => $aTotalTransaccionesDia,
             'cTransaccionesDiaXHora' => $cTransaccionesDiaXHora,
             'aTrxDET' => $aTrxDET,
-            'alerts' => Alert::all()]);
+            'alerts' => Alert::all()
+        ]);
     }
 
 }
