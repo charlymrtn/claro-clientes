@@ -159,7 +159,7 @@ class TransaccionController extends Controller
         }
         // @todo: Validar datos de entrada
         // Actualiza usuario
-        $oTransaccion->update($request->all());
+        $oTransaccion->update($oRequest->all());
         return ejsend_success(['transaccion' => $oTransaccion]);
     }
 

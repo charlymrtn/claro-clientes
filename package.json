@@ -34,6 +34,7 @@
     "datatables.net-responsive": "^2.2.0",
     "datatables.net-responsive-bs": "^2.2.0",
     "font-awesome": "^4.7.0",
+    "ionicons": "^4.1.2",
     "ionicons-npm": "^2.0.1",
     "jquery": "^3.2.1",
     "jquery.dirtyforms": "^2.0.0",

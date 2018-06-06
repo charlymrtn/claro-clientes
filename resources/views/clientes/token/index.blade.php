@@ -3,9 +3,8 @@
 @section('title', 'Tokens')
 
 @section('content_header')
-    @component('clientes/tokens/breadcrumbs')
+    @component('clientes/token/breadcrumbs')
     @endcomponent
-    <link rel="stylesheet" href="{{mix('/css/mix/datatables.css')}}">
 @stop
 
 @section('adminlte_js')
@@ -13,49 +12,18 @@
 
 @section('content')
     @can('ver perfil clientes')
+
+        @include('clientes/partials/datatables')
         <div class="content-header">
-            <h1>Clientes y Tokens</h1>
+            <h1>Tokens de acceso</h1>
             <br>
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title">Listado de clientes creados</h3>
-                    <button type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#client">
-                       Nuevo cliente
-                    </button>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body"  id="table1">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table id="clients" class="table table-striped table-bordered responsive" cellspacing="0" width="100%">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Usuario</th>
-                                    <th class="center">Nombre</th>
-                                    <th class="center">Secret</th>
-                                    <th class="center">Redireccionamiento</th>
-                                    <th class="center">Acceso personal de cliente</th>
-                                    <th class="center">Revocado</th>
-                                    <th data-priority="1">Acciones</th>
-                                </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <!-- /.col -->
-                    </div>
-                    <!-- /.row -->
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <div class="box box-default">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Listado de tokens creados</h3>
-                    <a href="{{route('tokens.nuevo.token')}}" class="btn btn-info pull-right">
+                    <h3 class="box-title">Listado de tokens</h3>
+                    <a href="{{route('token.nuevo.token')}}" class="btn btn-info pull-right">
                         Nuevo token
                     </a>
                 </div>
-                <!-- /.box-header -->
                 <div class="box-body"  id="table2">
                     <div class="row">
                         <div class="col-md-12">
@@ -63,23 +31,67 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th class="center">ID de cliente</th>
-                                    <th class="center">Nombre</th>
-                                    <th class="center">Scope</th>
-                                    <th class="center">Revocado</th>
-                                    <th class="center">Expiración</th>
-                                    <th>Acciones</th>
+                                    <th data-priority="1">Nombre</th>
+                                    <th data-priority="2">Permisos</th>
+                                    <th> </th>
                                 </tr>
                                 </thead>
                             </table>
                         </div>
-                        <!-- /.col -->
                     </div>
-                    <!-- /.row -->
                 </div>
-                <!-- /.box-body -->
             </div>
-            <!-- Modal client -->
+
+            <script>
+                jQuery(function($){
+                    // Inicializa tabla de datos
+                    var dtable = $('#tokens').DataTable({
+                        "ajax": {
+                            "url": "/clientes/api/token",
+                            "dataSrc": "data.token.data",
+                            "data": function (d) {
+                                console.log(d);
+                                var request_data = {};
+                                request_data.per_page = d.length;
+                                request_data.page = Math.ceil(d.start / d.length) + 1;
+                                request_data.order = d.columns[d.order[0].column].data;
+                                request_data.sort = d.order[0].dir;
+                                request_data.search = d.search.value;
+                                return request_data;
+                            },
+                            "dataFilter": function(response_data){
+                                //console.log(response_data);
+                                var d = jQuery.parseJSON(response_data);
+                                d.recordsTotal = d.data.token.total;
+                                d.recordsFiltered = d.data.token.total;
+                                return JSON.stringify(d);
+                            }
+                        },
+                        columns: [
+                            {data: 'id', visible: false},
+                            {data: 'nombre'},
+                            {data: 'permisos'},
+                            {data: null, orderable: false, render: function (d) { return '<a href="{{ route('token.index') }}/' + d.id + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
+                        ],
+                        // Opciones iguales en todas las tablas.
+                        "order": [[0, "desc"]],
+                        "responsive": true,
+                        "pageLength": 25,
+                        "serverSide": true,
+                        "searchDelay": 1500,
+                        @include('clientes/partials/datatables_lang')
+                    });
+                    // Solo envía el filtro al darle "enter".
+                    // Corrige error de dataTables que envía el primer caracter como búsqueda al servidor.
+                    $("#table1 div.dataTables_filter input").unbind();
+                    $("#table1 div.dataTables_filter input").keyup(function (e) {
+                        if (e.keyCode == 13) {
+                            dtable.search( this.value ).draw();
+                        }
+                    });
+                });
+            </script>
+
             <div class="modal fade bd-example-modal-lg" id="client">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
@@ -185,77 +197,6 @@
             </div>
             <!-- /.modal confirmacion -->
         </div>
-
-
-        <script src="{{mix('/js/mix/datatables.js')}}"></script>
-        <script>
-            $('#clients').DataTable( {
-                ajax: {
-                    url: '/oauth/clients',
-                    dataSrc: ''
-                },
-                columns: [
-                    {data: 'id'},
-                    {data: 'user_id'},
-                    {data: 'name'},
-                    {data: 'secret'},
-                    {data:'redirect'},
-                    {data: 'personal_access_client'},
-                    {data: 'revoked' },
-
-                    {data: null, orderable: false, render: function (d) {
-                        return '<button  onclick="modificar(\''+d.id+'\',\''+d.name+'\',\''+d.redirect+'\');" data-toggle="modal" data-target="#modificar" class="btn btn-warning btn-xs" role="button"><i class="fa fa-pencil"></i> Modificar</button>'+'<br>'+'<button onclick=" eliminar('+d.id+');" data-toggle="modal" data-target="#confirmacion"  class="btn btn-danger btn-xs" type="button"><i class="fa fa-trash"></i> Eliminar</button>'; }
-                    }
-                ],
-                "responsive": true,
-                "searchDelay": 1500,
-                "language": {
-                    "emptyTable": "No se encontraron datos.",
-                    "infoEmpty": "No hay registros",
-                    "lengthMenu": "Mostrar _MENU_ registros",
-                    "search": "Filtrar:",
-                    "paginate": {
-                        "first": "Primera",
-                        "last": "Última",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                }
-            } );
-        </script>
-        <script>
-            $('#tokens').DataTable( {
-                ajax: {
-                    url: '/oauth/personal-access-tokens',
-                    dataSrc: ''
-                },
-                columns: [
-                    {data: 'id'},
-                    {data: 'client_id'},
-                    {data: 'name'},
-                    {data:'scopes'},
-                    {data: 'revoked'},
-                    {data: 'expires_at' },
-                    {data: null, orderable: false, render: function (d) {
-                            return '<button onclick="eliminarToken(\''+d.id+'\');" data-toggle="modal" data-target="#confirmacion"  class="btn btn-danger btn-xs" type="button"><i class="fa fa-trash"></i> Eliminar</button>'; }
-                    }
-                ],
-                "responsive": true,
-                "searchDelay": 1500,
-                "language": {
-                    "emptyTable": "No se encontraron datos.",
-                    "infoEmpty": "No hay registros",
-                    "lengthMenu": "Mostrar _MENU_ registros",
-                    "search": "Filtrar:",
-                    "paginate": {
-                        "first": "Primera",
-                        "last": "Última",
-                        "next": "Siguiente",
-                        "previous": "Anterior"
-                    }
-                }
-            } );
-        </script>
         <script>
             $(document).ready(function() {
                 $('#guardarCliente').on('click', function (e) {

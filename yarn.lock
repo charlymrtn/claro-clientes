@@ -3479,6 +3479,10 @@ ionicons-npm@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/ionicons-npm/-/ionicons-npm-2.0.1.tgz#ecd0be94944d9ca69f5bb4912edf84d2ec702e15"
 
+ionicons@^4.1.2:
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/ionicons/-/ionicons-4.1.2.tgz#686898252d4ffac6c0877c7c0d2d1fa91a0f8288"
+
 ip-regex@^1.0.1:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/ip-regex/-/ip-regex-1.0.3.tgz#dc589076f659f419c222039a33316f1c7387effd"

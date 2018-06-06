@@ -14,6 +14,8 @@ Route::get('/', 'ClientesController@index')->name('clientes');
  */
     // Transacciones
     require base_path('routes/web/clientes/app/transacciones.php');
+    // Tokens
+    require base_path('routes/web/clientes/token/token.php');
 
 /**
  * Clientes APIs

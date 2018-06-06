@@ -2,35 +2,52 @@
 
 namespace App\Http\Controllers\Clientes;
 
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
+use App\Models\Token;
+use App\Models\Comercio;
 
 class TokenController extends Controller
 {
+
+    protected $oComercio;
+    protected $oToken;
+
+    /**
+     * Crea nueva instancia.
+     *
+     * @return void
+     */
+    public function __construct(Comercio $comercio, Token $token)
+    {
+        $this->oComercio = $comercio;
+        $this->oToken = $token;
+    }
+
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      *
      */
     public function index()
     {
-        return view('clientes.tokens.index');
+        // Obtiene tokens del comercio
+        $aApiTokens = $this->oToken->getApiTokens(auth()->user()->comercio_uuid);
+        // Muestra vista con datos
+        return view('clientes.token.index')->with(['tokens' => $aApiTokens]);
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function deleteClient($id)
+    public function show($id)
     {
-        $uri = 'http://clientes.claropay.local.com/oauth/clients/';
-        $client = new Client(['debug' => true,]);
-                $response = $client->post($uri, [
-                    'json' => $id,
-                ]);
-        return redirect()->back();
-
+        // Obtiene tokens del comercio
+        $aApiTokens = $this->oToken->getToken(auth()->user()->comercio_uuid, $id);
+        // Muestra vista con datos
+        return view('clientes.token.detalle')->with(['token' => $aApiTokens->first()]);
     }
 
     /**
@@ -38,7 +55,7 @@ class TokenController extends Controller
      */
     public function nuevoToken()
     {
-        return view('clientes.tokens.nuevo_token');
+        return view('clientes.token.nuevo_token');
     }
 
     /**

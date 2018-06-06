@@ -206,7 +206,7 @@ class ComercioController extends Controller
         }
         // @todo: Validar datos de entrada
         // Actualiza usuario
-        $oComercio->update($request->all());
+        $oComercio->update($oRequest->all());
         return ejsend_success(['comercio' => $oComercio]);
     }
 

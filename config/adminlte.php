@@ -119,6 +119,12 @@ return [
             'icon' => 'exchange',
             'can' => 'listar transacciones clientes',
         ],
+        [
+            'text' => 'Tokens',
+            'url'  => 'clientes/token',
+            'icon' => 'key',
+            'can' => 'listar tokens clientes',
+        ],
 
         // Perfil del usuario
         'CUENTA',
@@ -132,14 +138,6 @@ return [
             'text' => 'Salir',
             'url'  => 'logout',
             'icon' => 'power-off',
-        ],
-        //Tokens
-        'TOKEN',
-        [
-            'text' => 'Tokens',
-            'url'  => 'clientes/tokens',
-            'icon' => 'key',
-            'can' => 'ver perfil clientes',
         ],
     ],
 

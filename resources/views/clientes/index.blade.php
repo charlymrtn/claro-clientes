@@ -45,28 +45,12 @@
         <div class="small-box bg-red">
             <div class="inner">
                 <h3>{{ number_format(App\Models\Comercio::count()) }}</h3>
-                <p>Comercios</p>
+                <p>Tokens</p>
             </div>
             <div class="icon">
-                <i class="ion ion-bag"></i>
+                <i class="fa fa-key"></i>
             </div>
-            <a href="{{ route('comercio.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
-        </div>
-    </div>
-    @endcan
-
-    <!-- Número de usuarios en el sistema -->
-    @can('listar usuarios')
-    <div class="col-lg-3 col-xs-6">
-        <div class="small-box bg-yellow">
-            <div class="inner">
-                <h3>{{ number_format(App\Models\User::count()) }}</h3>
-                <p>Usuarios</p>
-            </div>
-            <div class="icon">
-                <i class="ion ion-person"></i>
-            </div>
-            <a href="{{ route('clientes') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('token.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     @endcan

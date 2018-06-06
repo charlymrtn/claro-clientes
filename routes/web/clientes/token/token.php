@@ -1,10 +1,10 @@
 <?php
 //Tokens
-Route::group(['middleware' => ['permission:ver perfil clientes']], function () {
-    Route::get('/tokens', 'TokenController@index')->name('tokens.index');
-    Route::get('/tokens/genera', 'TokenController@genera')->name('tokens.genera');
-    Route::get('/tokens/delete/{id}', 'TokenController@deleteClient')->name('tokens.delete.client');
-    Route::get('/tokens/nuevo', 'TokenController@nuevoToken')->name('tokens.nuevo.token');
-    Route::get('/tokens/delete_token/{id}', 'TokenController@deleteToken')->name('tokens.delete.token');
-
+Route::group(['middleware' => ['permission:listar tokens clientes']], function () {
+    Route::get('/token', 'TokenController@index')->name('token.index');
+    Route::get('/token/{id}', 'TokenController@show')->name('token.show');
+    Route::get('/token/genera', 'TokenController@genera')->name('token.genera');
+    Route::get('/token/delete/{id}', 'TokenController@deleteClient')->name('token.delete.client');
+    Route::get('/token/nuevo', 'TokenController@nuevoToken')->name('token.nuevo.token');
+    Route::get('/token/delete_token/{id}', 'TokenController@deleteToken')->name('token.delete.token');
 });

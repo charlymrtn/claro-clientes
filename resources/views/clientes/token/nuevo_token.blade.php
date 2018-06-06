@@ -120,7 +120,7 @@
                         <div class="row">
                             <div class="col-md-12"><br>
                                 <div class="col-md-4">
-                                    <a href="{{route('tokens.index')}}" type="button"  class="btn btn-block btn-danger">Cancelar</a>
+                                    <a href="{{route('token.index')}}" type="button"  class="btn btn-block btn-danger">Cancelar</a>
                                 </div>
                                 <div class="col-md-4 col-md-offset-4">
                                     <button type="button" id="generar" class="btn btn-block btn-success pull-right">Generar</button>
@@ -147,7 +147,7 @@
                             <label>Token</label>
                             <textarea id="token" class="form-control" rows="20" ></textarea> <br>
                             <button id="copy" type="button" class="btn btn-info pull-right">Copiar</button>
-                            <a href="{{route('tokens.index')}}"  type="button" class="btn btn-danger pull-left">Cerrar</a>
+                            <a href="{{route('token.index')}}"  type="button" class="btn btn-danger pull-left">Cerrar</a>
                             <br>
                         </div>
 
