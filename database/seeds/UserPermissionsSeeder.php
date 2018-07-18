@@ -62,6 +62,8 @@ class UserPermissionsSeeder extends Seeder
         Permission::create(['id' => 162, 'name' => 'crear tokens clientes', 'guard_name' => 'web']);
         Permission::create(['id' => 163, 'name' => 'revocar tokens clientes', 'guard_name' => 'web']);
 
+        Permission::create(['id' => 170, 'name' => 'listar vpos clientes', 'guard_name' => 'web']);
+
         // Roles y permisos
 
         // Superadmin
@@ -79,6 +81,9 @@ class UserPermissionsSeeder extends Seeder
             ['role_id' => 11, 'model_id' => 1, 'model_type' => 'App\Models\User'],
             ['role_id' => 10, 'model_id' => 2, 'model_type' => 'App\Models\User'],
             ['role_id' => 100, 'model_id' => 3, 'model_type' => 'App\Models\User'],
+        ]);
+        DB::table('model_has_permissions')->insert([
+            ['permission_id' => 170, 'model_id' => 3, 'model_type' => 'App\Models\User'],
         ]);
 
 

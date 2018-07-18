@@ -157,8 +157,14 @@ class TransaccionController extends Controller
             Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
             return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrada.'], 404);
         }
+        // Agrega valores
+        $oRequest->merge([
+            'transaccion_estatus_id' => $this->mTransaccionEstatus->where('indice', $oRequest->input('estatus'))->value('id'),
+            'pais_id' => $this->mPais->where('iso_a3', $oRequest->input('pais'))->value('id'),
+            'moneda_id' => $this->mMoneda->where('iso_a3', $oRequest->input('moneda'))->value('id'),
+        ]);
         // @todo: Validar datos de entrada
-        // Actualiza usuario
+        // Actualiza transaccion
         $oTransaccion->update($oRequest->all());
         return ejsend_success(['transaccion' => $oTransaccion]);
     }

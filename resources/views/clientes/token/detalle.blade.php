@@ -10,6 +10,7 @@
 @stop
 
 @section('adminlte_js')
+    <link rel="stylesheet" type="text/css" href="{{ mix('/css/mix/forms.css') }}">
     <script type="text/javascript" src="{{ mix('/js/mix/forms.js') }}"></script>
 @stop
 @section('content')

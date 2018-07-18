@@ -1,4 +1,5 @@
 const { mix } = require('laravel-mix');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // Compilación, minificación de JS y CSS
 if (mix.config.inProduction) {
@@ -30,14 +31,17 @@ if (mix.config.inProduction) {
             'node_modules/bootstrap-show-password/bootstrap-show-password.min.js',
             'node_modules/select2/dist/js/select2.min.js',
             'node_modules/clipboard/dist/clipboard.min.js',
-            'resources/assets/js/forms.js',
+            'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js', // ion.rangeSlider
+            'resources/assets/js/forms.js'
         ], 'public/js/mix/forms.js')
         .styles([
             'node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css',
             'node_modules/cropper/dist/cropper.min.css',
             'node_modules/titatoggle/dist/titatoggle-dist-min.css',
             'node_modules/select2/dist/css/select2.min.css',
-            'resources/assets/sass/forms.scss',
+            'node_modules/ion-rangeslider/css/ion.rangeSlider.css', // ion.rangeSlider
+            'node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css', // ion.rangeSlider
+            'resources/assets/sass/forms.scss'
         ], 'public/css/mix/forms.css')
 
         // Charts
@@ -85,7 +89,8 @@ if (mix.config.inProduction) {
         ], 'public/css/mix/ui.css')
         .copy('node_modules/font-awesome/fonts', 'public/css/fonts')
         .copy('node_modules/ionicons-npm/fonts', 'public/css/fonts')
-        .copy('node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons*', 'public/css/fonts')
+        .copy('node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons*', 'public/css/fonts', false)
+        .copy('node_modules/ion-rangeslider/img', 'public/css/img', false)
 
         // CSS de vendor.
         .sass('resources/assets/sass/vendor.scss', 'public/css')
@@ -125,6 +130,7 @@ if (mix.config.inProduction) {
             'node_modules/bootstrap-show-password/bootstrap-show-password.min.js',
             'node_modules/select2/dist/js/select2.min.js',
             'node_modules/clipboard/dist/clipboard.min.js',
+            'node_modules/ion-rangeslider/js/ion.rangeSlider.min.js', // ion.rangeSlider
             'resources/assets/js/forms.js',
         ], 'public/js/mix/forms.js')
         .styles([
@@ -132,6 +138,8 @@ if (mix.config.inProduction) {
             'node_modules/cropper/dist/cropper.min.css',
             'node_modules/titatoggle/dist/titatoggle-dist-min.css',
             'node_modules/select2/dist/css/select2.min.css',
+            'node_modules/ion-rangeslider/css/ion.rangeSlider.css', // ion.rangeSlider
+            'node_modules/ion-rangeslider/css/ion.rangeSlider.skinModern.css', // ion.rangeSlider
             'resources/assets/sass/forms.scss',
         ], 'public/css/mix/forms.css')
 
@@ -180,7 +188,8 @@ if (mix.config.inProduction) {
         ], 'public/css/mix/ui.css')
         .copy('node_modules/font-awesome/fonts', 'public/css/fonts')
         .copy('node_modules/ionicons-npm/fonts', 'public/css/fonts')
-        .copy('node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons*', 'public/css/fonts')
+        .copy('node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons*', 'public/css/fonts', false)
+        .copy('node_modules/ion-rangeslider/img', 'public/css/img', false)
 
         // CSS de vendor.
         .sass('resources/assets/sass/vendor.scss', 'public/css')
@@ -190,3 +199,10 @@ if (mix.config.inProduction) {
         .sass('resources/assets/sass/login.scss', 'public/css')
     ;
 }
+
+// Limpia directorio destino
+mix.webpackConfig({
+  plugins: [
+    new CleanWebpackPlugin(['./public/js', './public/css'])
+  ]
+});
