@@ -129,6 +129,8 @@
                                 <label>Procesador de pago</label>
                                 <select name="procesador" class="form-control" tabindex="11">
                                   <option value="bbva">BBVA - EGlobal</option>
+                                  <option value="bbva_reversos_comercio">BBVA - EGlobal - Reversos por comercio</option>
+                                  <option value="bbva_reversos_eglobal">BBVA - EGlobal - Reversos EGlobal</option>
                                   <option value="prosa" disabled>Prosa</option>
                                   <option value="amex" disabled>AMEX</option>
                                 </select>

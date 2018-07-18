@@ -77,6 +77,7 @@ class VposController extends Controller
                 'parcialidades' => 0,
                 'diferido' => 0,
             ],
+            'procesador' => $request->input('procesador'),
         ];
         if (in_array($request->input('promocion', 'normal'), ['msi', 'mci', 'diferido_msi', 'diferido_mci'])) {
             $aRequest['plan']['parcialidades'] = $request->input('promocion_meses');
@@ -99,9 +100,8 @@ class VposController extends Controller
             $oRespuesta = json_decode($oMensajeCargo->response);
         } else {
             $oRespuesta = json_decode('{"error":"El cobro no pudo ser realizado."}');
-            return view('clientes.vpos.resultado')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta]);
+            return view('clientes.vpos.error')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta]);
         }
-        #dump($oRespuesta);
 
         // Procesa resultados
         $oTrx = Transaccion::find($oRespuesta->id);
