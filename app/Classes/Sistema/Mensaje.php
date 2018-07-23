@@ -107,7 +107,7 @@ class Mensaje
                 'Authorization' => 'Bearer ' . $this->aConfig[$sAplicacion]['token'],
             ],
             'body' => $sMensaje,
-            'timeout' => 25,
+            'timeout' => 80,
             'http_errors' => false,
         ];
         try {

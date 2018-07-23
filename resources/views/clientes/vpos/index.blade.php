@@ -22,14 +22,75 @@
                 min: 0, max: 0, from: 0, grid: true, prefix: "$", step: 0.05
             });
             var rangoPuntos = $("#puntos_rango").data("ionRangeSlider");
+            // Funciones para desactivar puntos y promociones
+            function resetPromo() {
+                $('#promocion').children().eq(0).prop("selected", true);
+                $('#promocion_meses_div').hide();
+                $('#promocion_diferido_div').hide();
+            }
+            function togglePuntos(activar) {
+                if (activar) {
+                    $('#puntos_pago').prop('checked', true);
+                    $('#puntos_pago_activo').val(1);
+                    $('#puntos_rango_div').show();
+                    var monto = Number($('#monto').val());
+                    rangoPuntos.update({from:(monto)});
+                    resetPromo();
+                } else {
+                    $('#puntos_pago').prop('checked', false);
+                    $('#puntos_pago_activo').val(0);
+                    $('#puntos_rango_div').hide();
+                    rangoPuntos.update({from:(0)});
+                }
+            }
+            // Otras funciones
+            function generateOrderId(size) {
+                var text = "";
+                var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                for (var i = 0; i < size; i++) {
+                    text += possible.charAt(Math.floor(Math.random() * possible.length));
+                }
+                return text;
+            }
+            function puedeUsarPuntos(bin) {
+                // Detecta tarjeta con puntos
+                var binesPuntos = [
+                    "410180", "410181", "441311", "455500", "455503", "455504", "455505", "455508", "455529", "455540", "455545", "493160", "493161", "493162", "477210", "477212", "477213", "477214", "477291", "477292", "481514", "481515",
+                    "542010", "542977", "544053", "544551", "547077", "547086", "547095", "547155", "547156", "554629", "535875", "542015", "542073"
+                ];
+                if ($.inArray(bin.substring(0, 6), binesPuntos) >= 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            function fillTrxResult(data) {
+                $('#transaccion-id').html("<a href=\"{{ route('transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
+                $('#transaccion-autorizacion').html(data.autorizacion);
+                $('#transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
+                $('#transaccion-monto').html(data.monto);
+                $('#transaccion-fecha').html(data.transaccion.created_at);
+
+                $('#transaccion-estatus').html(data.estatus);
+                $('#transaccion-tipo').html(data.tipo[0].toUpperCase() + data.tipo.slice(1));
+
+                $('#transaccion-forma_pago-tarjeta-marca').html(data.transaccion.datos_pago.marca);
+                $('#transaccion-forma_pago').html(data.transaccion.forma_pago[0].toUpperCase() + data.transaccion.forma_pago.slice(1));
+                $('#transaccion-pan').html(data.transaccion.datos_pago.pan);
+                $('#transaccion-descripcion').html(data.resultado_descripcion);
+
+            }
+            function fillErrorResult(data) {
+                //$('#error-transaccion-id').html("<a href=\"{{ route('transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
+                $('#error-transaccion-descripcion').html(data.resultado_descripcion);
+                //$('#error-transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
+            }
             // Activa pago con puntos
             $('#puntos_pago').change(function () {
                 if ($(this).prop("checked")) {
-                    $('#puntos_pago_activo').val(1);
-                    $('#puntos_rango_div').show();
+                    togglePuntos(true);
                 } else {
-                    $('#puntos_pago_activo').val(0);
-                    $('#puntos_rango_div').hide();
+                    togglePuntos(false);
                 }
             });
             // Activa promoción
@@ -48,6 +109,8 @@
                     $('#promocion_meses_div').hide();
                     $('#promocion_diferido_div').hide();
                 }
+                // Desactiva puntos
+                togglePuntos(false);
             });
             // Generar número de orden
             $('#generate-order').click(function() {
@@ -62,7 +125,7 @@
                 //rangoPuntos.update({max:monto, from:(monto/2)});
             });
             // Inicializa tarjeta
-            $('#p1_f1').card({
+            $('#vpos').card({
                 container: '#card-wrapper', // *required*
                 placeholders: {
                     name: 'Nombre completo'
@@ -74,15 +137,10 @@
                 debug: true
             });
             // Detecta tarjeta con puntos
-            var binesPuntos = [
-                "410180", "410181", "441311", "455500", "455503", "455504", "455505", "455508", "455529", "455540", "455545", "493160", "493161", "493162", "477210", "477212", "477213", "477214", "477291", "477292", "481514", "481515",
-                "542010", "542977", "544053", "544551", "547077", "547086", "547095", "547155", "547156", "554629", "535875", "542015", "542073"
-            ];
             $("#number").keyup(function() {
                 var bin = $("#number").val().split(' ').join('');
                 if (bin.length >= 6) {
-                    bin = bin.substring(0, 6);
-                    if ($.inArray(bin, binesPuntos) >= 0) {
+                    if (puedeUsarPuntos(bin)) {
                         $('#bin_puntos_div').show();
                     } else {
                         $('#bin_puntos_div').hide();
@@ -91,16 +149,53 @@
                     $('#bin_puntos_div').hide();
                 }
             });
+            // Envío de datos
+            $( "#vpos" ).submit(function( event ) {
+                $('#ventanaSpinnerModal').modal('show');
+                event.preventDefault();
+                // Envía datos
+                $.post(
+                    '{{ route('vpos.cargo') }}',
+                    $("#vpos").serialize(),
+                    function(response) {
+                        //$('#result').html(response);
+                        console.log( "POST Successfull" );
+                    },
+                    'json'
+                )
+                .done(function(response) {
+                    console.log("Response Successfull");
+                    console.log(response);
+                    $('#ventanaSpinnerModal').modal('hide');
 
+                    if (response.data.estatus == "completada") {
+                        fillTrxResult(response.data);
+                        $('#ventanaExitoModal').modal('show');
+                    } else if (response.data.estatus == "rechazada") {
+                        fillTrxResult(response.data);
+                        $('#ventanaExitoModal').modal('show');
+                    } else if (response.data.estatus == "pendiente") {
+                        fillTrxResult(response.data);
+                        $('#ventanaExitoModal').modal('show');
+                    } else {
+                        fillErrorResult(response.data);
+                        $('#ventanaErrorModal_Titulo').html(response.data.estatus);
+                        $('#ventanaErrorModal').modal('show');
+                    }
+                })
+                .fail(function(response) {
+                    console.log(response);
+                    //$('#result').html(data);
+                    $('#ventanaSpinnerModal').modal('hide');
+                    console.log("error");
+                })
+                .always(function(response) {
+                    //$('#result').html(response.data);
+                    console.log("POST Complete");
+                    $('#ventanaSpinnerModal').modal('hide');
+                });
+            });
         });
-        function generateOrderId(size) {
-            var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            for (var i = 0; i < size; i++) {
-                text += possible.charAt(Math.floor(Math.random() * possible.length));
-            }
-            return text;
-        }
     </script>
 
 @stop
@@ -112,7 +207,7 @@
             <h1>vPOS</h1>
             <br>
 
-            <form id="p1_f1" name="p1_f1" action="{{ route('vpos.cargo') }}" method="POST" accept-charset="UTF-8">
+            <form id="vpos" name="vpos" action="" method="POST" accept-charset="UTF-8">
                 {!! csrf_field() !!}
 
             <div class="row">
@@ -364,6 +459,97 @@
 		</div>
 	</div>
 
+    <!-- Ventana resultado exitoso -->
+	<div class="modal fade" id="ventanaExitoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div id="p1_title">
+						<h5 class="modal-title" id="exampleModalLabel">vPOS - Resultado de cargo</h5>
+					</div>
+				</div>
+				<div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Procesador de pago</h3>
+                                </div>
+                                <div class="box-body box-profile">
+                                    <ul class="list-group list-group-unbordered">
+                                        <li class="list-group-item">
+                                            <b>Transacción ID</b> <span id="transaccion-id" class="pull-right"><a href="" class="btn btn-primary btn-sm" role="button">id</a></span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <b>Autorización</b> <span id="transaccion-autorizacion" class="pull-right"></span>
+                                        </li>
+                                        <span id="transaccion-prueba" class="label"></span>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title">Resumen</h3>
+                                </div>
+                                <div class="box-body box-profile">
+                                    <span class="pull-right">
+                                        <h3 id="transaccion-nombre" class="no-margin-top"></h3>
+                                    </span>
+                                    <h1 id="transaccion-monto" class="no-margin-top">$ 0.00 <small id="transaccion-moneda-iso_a3">MXP</small></h1>
+                                    <i class="fa fa-calendar"></i> &nbsp; <span id="transaccion-fecha"></span>
+                                    <br><h3 id="transaccion-descripcion"></h3>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="box box-info">
+                                <div class="box-header">
+                                    <h3 class="box-title">Forma de pago</h3>
+                                </div>
+                                <div class="box-body box-profile">
+                                    <span id="transaccion-forma_pago-tarjeta-marca" class="label"></span>
+                                    <h1 id="transaccion-forma_pago" class="no-margin-top">Desconocida</h1>
+                                    <i class="fa fa-credit-card"></i> &nbsp; <span id="transaccion-pan"></span>
+                                    <br><i class="fa fa-user"></i> &nbsp; <span id="transaccion-datos_pago-nombre"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <!-- Ventana resultado exitoso -->
+	<div class="modal fade" id="ventanaErrorModal" tabindex="-1" role="dialog" aria-labelledby="ventanaErrorModal_Titulo" aria-hidden="true">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<div id="p1_title">
+						<h5 class="modal-title" id="ventanaErrorModal_Titulo">Error</h5>
+					</div>
+				</div>
+				<div class="modal-body text-center">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    <h3 class="box-title" id="ventanaErrorModal_Header">Error</h3>
+                                </div>
+                                <div class="box-body box-profile">
+                                    <span id="error-transaccion-descripcion"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
     @else

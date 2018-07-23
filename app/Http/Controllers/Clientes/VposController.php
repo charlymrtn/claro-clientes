@@ -88,27 +88,28 @@ class VposController extends Controller
         if (in_array($request->input('puntos_pago_activo', 0), ['1', 'on', true, 1])) {
             $aRequest['plan']['puntos'] = $request->input('puntos_rango');
         }
-        // "_token" => "CaZqfmlVIWMDADIMaH3AsEgjLXPeQWR4JSUJZBgj"
-        // "procesador" => "bbva"
-        // "afiliacion" => "5462742"
         #dump($aRequest);
         // Envía mensaje
         $oMensajeCargo = $this->mMensaje->envia('api', '/bbva/cargo', 'POST', json_encode($aRequest));
         #dump($oMensajeCargo);
 
-        if (!empty($oMensajeCargo->response)) {
+        if (!empty($oMensajeCargo) && !empty($oMensajeCargo->response)) {
             $oRespuesta = json_decode($oMensajeCargo->response);
+            #dd($oRespuesta);
         } else {
             $oRespuesta = json_decode('{"error":"El cobro no pudo ser realizado."}');
             return view('clientes.vpos.error')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta]);
         }
 
-        // Procesa resultados
+        // Busca transacción
         $oTrx = Transaccion::find($oRespuesta->id);
+        $oRespuesta->fecha = $oTrx->created_at;
+        $oRespuesta->estatus_color = $oTrx->estatus->color;
+        $oRespuesta->transaccion = $oTrx;
 
+        return ejsend_success($oRespuesta);
         // Muestra vista con datos
-        return view('clientes.vpos.resultado')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta, 'transaccion' => $oTrx]);
-
+        #return view('clientes.vpos.resultado')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta, 'transaccion' => $oTrx]);
 
     }
 
