@@ -14,6 +14,7 @@
 @section('adminlte_js')
     <script type="text/javascript" src="{{ asset('vendor/jessepollak/card/jquery.card.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/js/mix/forms.js') }}"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
 
     <script>
         jQuery(function($){
@@ -44,6 +45,10 @@
                 }
             }
             // Otras funciones
+            function number_format(m, n, x) {
+                var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+                return m.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$&,');
+            };
             function generateOrderId(size) {
                 var text = "";
                 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -68,7 +73,7 @@
                 $('#transaccion-id').html("<a href=\"{{ route('transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
                 $('#transaccion-autorizacion').html(data.autorizacion);
                 $('#transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
-                $('#transaccion-monto').html(data.monto);
+                $('#transaccion-monto').html(numeral(data.monto).format('$0,0.00'));
                 $('#transaccion-fecha').html(data.transaccion.created_at);
 
                 $('#transaccion-estatus').html(data.estatus);
@@ -225,7 +230,7 @@
                                 <select name="procesador" class="form-control" tabindex="11">
                                   <option value="bbva">BBVA - EGlobal</option>
                                   <option value="bbva_reversos_comercio">BBVA - EGlobal - Reversos por comercio</option>
-                                  <option value="bbva_reversos_eglobal">BBVA - EGlobal - Reversos EGlobal</option>
+                                  <!--option value="bbva_reversos_eglobal">BBVA - EGlobal - Reversos EGlobal</option-->
                                   <option value="prosa" disabled>Prosa</option>
                                   <option value="amex" disabled>AMEX</option>
                                 </select>
@@ -499,7 +504,7 @@
                                     <span class="pull-right">
                                         <h3 id="transaccion-nombre" class="no-margin-top"></h3>
                                     </span>
-                                    <h1 id="transaccion-monto" class="no-margin-top">$ 0.00 <small id="transaccion-moneda-iso_a3">MXP</small></h1>
+                                    <h1 class="no-margin-top"><span id="transaccion-monto"></span> <small id="transaccion-moneda-iso_a3">MXP</small></h1>
                                     <i class="fa fa-calendar"></i> &nbsp; <span id="transaccion-fecha"></span>
                                     <br><h3 id="transaccion-descripcion"></h3>
                                 </div>
