@@ -65,7 +65,7 @@ class Token extends Model
      */
 
     /**
-     * Obtiene token local y de API del comercio
+     * Obtiene token local y de Core API del comercio
      *
      * @param string $comercio_uuid UUID del comercio
      * @param string $token_id Token id
@@ -93,7 +93,7 @@ class Token extends Model
     }
 
     /**
-     * Obtiene tokens locales y de API del comercio
+     * Obtiene tokens locales y de Core API del comercio
      *
      * @param string $comercio_uuid UUID del comercio
      * @return object Collection con tokens del comercio
@@ -116,7 +116,7 @@ class Token extends Model
     }
 
     /**
-     * Obtiene tokens en API del comercio
+     * Obtiene tokens en Core API del comercio
      *
      * @param string $comercio_uuid UUID del comercio
      * @param string $token_id Token id
@@ -140,7 +140,7 @@ class Token extends Model
     }
 
     /**
-     * Obtiene tokens en API del comercio
+     * Obtiene tokens en Core API del comercio
      *
      * @param string $comercio_uuid UUID del comercio
      * @return object Collection con tokens del comercio
@@ -157,6 +157,31 @@ class Token extends Model
                 $aTokensApi = $oMensajeData->data->tokens->data;
             }
         }
+        // Regresa arreglo con tokens
+        return collect($aTokensApi);
+    }
+
+    /**
+     * Crea token en Core API
+     *
+     * @param string $comercio_uuid UUID del comercio
+     * @param array $aTokenRequest
+     *
+     * @return object Collection con tokens del comercio
+     */
+    public function storeApiToken(string $comercio_uuid, array $aTokenRequest): Collection
+    {
+        dd('storeApiToken');
+        // API
+//        $aTokensApi = [];
+//        $oMensaje = new Mensaje();
+//        $oMensajeRespuesta = $oMensaje->envia('api', '/admin/comercio/' . $comercio_uuid . '/token/' . $token_id, 'GET');
+//        if ($oMensajeRespuesta->status == 'success') {
+//            $oMensajeData = json_decode($oMensajeRespuesta->response);
+//            if (isset($oMensajeData->data->tokens->data)) {
+//                $aTokensApi = $oMensajeData->data->tokens->data;
+//            }
+//        }
         // Regresa arreglo con tokens
         return collect($aTokensApi);
     }

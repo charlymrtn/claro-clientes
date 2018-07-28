@@ -20,7 +20,7 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Listado de tokens</h3>
-                    <a href="{{route('token.nuevo.token')}}" class="btn btn-info pull-right">
+                    <a href="{{route('token.create')}}" class="btn btn-info pull-right">
                         Nuevo token
                     </a>
                 </div>

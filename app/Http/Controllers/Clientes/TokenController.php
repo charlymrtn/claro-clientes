@@ -51,11 +51,29 @@ class TokenController extends Controller
     }
 
     /**
+     * Muestra forma de creación de token
+     *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function nuevoToken()
+    public function create()
     {
-        return view('clientes.token.nuevo_token');
+        return view('clientes.token.create');
+    }
+
+    /**
+     * Genera token
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function store(Request $oRequest)
+    {
+        dd('store');
+        // Genera token del comercio en API
+        $oToken = $this->oToken->storeApiToken(auth()->user()->comercio_uuid, $oRequest);
+        // Guarda token local (portal de clientes)
+        // Muestra vista detalle del nuevo token
+        dd($oToken);
+        #return view('clientes.token.detalle')->with(['token' => $oToken]);
     }
 
     /**
