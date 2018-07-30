@@ -127,7 +127,7 @@
                         {data: 'monto', render: $.fn.dataTable.render.number(',', '.', 2, '$')},
                         {data: 'estatus', render: function(d) { return '<i class="btn btn-primary btn-xs" style="border-color:' + d.color + '; background-color:' + d.color + '" role="button">' + d.nombre + '</i>'; }},
                         {data: 'created_at', render: function (d) { if(d) { return d.split(" ")[0] } else { return null } } },
-                        {data: null, orderable: false, render: function (d) { return '<a href="{{ route('transaccion.index') }}/' + d.uuid + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
+                        {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.transaccion.index') }}/' + d.uuid + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
                     ],
                     // Opciones iguales en todas las tablas.
                     "order": [[6, "desc"]],

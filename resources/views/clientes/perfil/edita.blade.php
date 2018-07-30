@@ -14,7 +14,7 @@
     <script type="text/javascript" src="/js/mix/forms.js"></script>
 @stop
 @section('content')
-    <form id="usuario-edita" name="usuario-edita" method="post" action="{{ route('perfil.update', ['id' => $usuario->id]) }}">
+    <form id="usuario-edita" name="usuario-edita" method="post" action="{{ route('clientes.perfil.update', ['id' => $usuario->id]) }}">
         {!! csrf_field() !!}
         @can('editar perfil clientes')
         <div class="row">
@@ -52,7 +52,7 @@
                 <div class="box box-danger">
                     <div class="box-body table-responsive">
                         <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
-                        <a href="{{ route('perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+                        <a href="{{ route('clientes.perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
                         <button type="reset" class="btn btn-default"><i class="fa fa-refresh"></i> Restaurar datos</button>
 
                     </div>

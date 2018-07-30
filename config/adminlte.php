@@ -119,6 +119,18 @@ return [
             'icon' => 'exchange',
             'can' => 'listar transacciones clientes',
         ],
+        [
+            'text' => 'Tokens',
+            'url'  => 'clientes/token',
+            'icon' => 'key',
+            'can' => 'listar tokens clientes',
+        ],
+        [
+            'text' => 'vPOS',
+            'url'  => 'clientes/vpos',
+            'icon' => 'credit-card-alt',
+            'can' => 'listar vpos clientes',
+        ],
 
         // Perfil del usuario
         'CUENTA',

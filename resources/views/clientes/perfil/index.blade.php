@@ -52,9 +52,9 @@
                 <div class="box box-success">
                     <div class="box-body table-responsive">
                         @can('editar perfil clientes')
-                            <a href="{{ route('perfil.password') }}" role="button" class="btn btn-default"><i class="fa fa-key"></i> Cambiar contraseña</a>
-                            <a href="{{route('perfil.avatar')}}" role="button" class="btn btn-default"><i class="fa fa-user-circle"></i> Cambiar Avatar</a>
-                            <a href="{{ route('perfil.edit') }}" role="button" class="btn btn-primary"><i class="fa fa-pencil"></i> Editar</a>
+                            <a href="{{ route('clientes.perfil.password') }}" role="button" class="btn btn-default"><i class="fa fa-key"></i> Cambiar contraseña</a>
+                            <a href="{{route('clientes.perfil.avatar')}}" role="button" class="btn btn-default"><i class="fa fa-user-circle"></i> Cambiar Avatar</a>
+                            <a href="{{ route('clientes.perfil.edit') }}" role="button" class="btn btn-primary"><i class="fa fa-pencil"></i> Editar</a>
                         @endcan
                     </div>
                 </div>

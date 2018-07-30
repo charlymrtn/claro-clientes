@@ -12,6 +12,7 @@
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/mix/ui.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/vendor.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/app.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/skins/skin-' . config('adminlte.skin', 'blue') . '.min.css')}} ">
     @yield('adminlte_css')
     <script type="text/javascript" src="{{ mix('/js/mix/ui.js') }}"></script>
     <!--[if lt IE 9]>

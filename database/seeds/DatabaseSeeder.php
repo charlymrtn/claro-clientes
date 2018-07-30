@@ -22,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MonedaTableSeeder::class);
         $this->call(TarjetaMarcaTableSeeder::class);
         $this->call(TransaccionEstatusTableSeeder::class);
+        $this->call(TokenTableSeeder::class);
     }
 }

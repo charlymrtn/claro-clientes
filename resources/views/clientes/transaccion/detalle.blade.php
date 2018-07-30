@@ -5,11 +5,25 @@
 @section('content_header')
     <h1>Transacción <small> Detalles</small></h1>
     @component('clientes/transaccion/breadcrumbs')
-        <li><a href="{{ route('transaccion.show', ['id' => $transaccion->uuid]) }}"><i class="fa fa-eye"></i> Detalle</a></li>
+        <li><a href="{{ route('clientes.transaccion.show', ['id' => $transaccion->uuid]) }}"><i class="fa fa-eye"></i> Detalle</a></li>
     @endcomponent
 @stop
 
 @section('adminlte_js')
+    <script>
+        jQuery(function($){
+            // Inicia devolución
+            $('#devolucion').click(function() {
+                window.location = "{{ route('clientes.vpos.devolucion', ['uuid' => $transaccion->uuid]) }}";
+            });
+            // Inicia cancelación
+            $('#cancelacion').click(function() {
+                window.location = "{{ route('clientes.vpos.cancelacion', ['uuid' => $transaccion->uuid]) }}";
+            });
+        });
+    </script>
+
+
 @stop
 @section('content')
         <div class="row">
@@ -253,25 +267,27 @@
                         </div>
                     </div>
                 </div>
-                @if($transaccion->transaccion_estatus_id == "1")
+                @if($transaccion->operacion == "pago" && $transaccion->transaccion_estatus_id == "1")
                     <div class="box box-danger">
                         <div class="box-header">
-                            <h3 class="box-title">Cancelación</h3>
-                            <p>La cancelación de una transacción estará sujeta al tiempo que ha transcurrido desde la operación, sepodrá reflejar como una cancelación o como reverso.</p>
-                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cancelacion">Cancelar Transaccion</button>
-                            <div class="modal modal-error fade" id="modal-cancelacion" style="display: none;">
+                            <h3 class="box-title">Reembolso</h3>
+                            <p>Para realizar una devolución se deberá hacer clic en iniciar devolución</p>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-contracargo">Inciar Devolución</button>
+                            <div id="devolucion_iniciada" class="hidden">
+                            </div>
+                            <div class="modal modal-warning fade" id="modal-contracargo" style="display: none;">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <div class="modal-  header">
+                                        <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">×</span></button>
-                                            <h4 class="modal-title">Advertencia</h4>
+                                            <h4 class="modal-title">Advertencia de devolución</h4>
                                         </div>
                                         <div class="modal-body">
-                                            <p>Estas seguro?</p>
+                                            <p>Esta seguro de iniciar la devolución del pago de la transacción <b>{{ $transaccion->uuid }}</b> realizada el <b>{{ $transaccion->created_at }}</b> con un monto de  <strong>$ {{ number_format($transaccion->monto, 2) }}</strong>?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Yes</button>
+                                            <button id="devolucion" type="button" class="btn btn-outline pull-left" data-dismiss="modal">Si</button>
                                             <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
                                         </div>
                                     </div>
@@ -280,47 +296,35 @@
                         </div>
                     </div>
                 @endif
-                <div class="box box-default">
-                    <div class="box-header">
-                        <h3 class="box-title">Reembolso</h3>
-                        <div class="box-body box-profile">
-                            <ul class="list-group list-group-unbordered">
-                            @if($transaccion->operacion == "pago")
-                                <div class="box box-danger">
-                                    <div class="box-header">
-                                        <div id="devolucion_solicitud" class="">
-                                            <h3 class="box-title">Autorizacion</h3>
-                                            <p>Para realizar una devolución se deberá hacer clic en iniciar devolución</p>
-                                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-contracargo">Inciar Devolución</button>
+
+                @if($transaccion->transaccion_estatus_id == "1")
+                    <div class="box box-danger">
+                        <div class="box-header">
+                            <h3 class="box-title">Cancelación</h3>
+                            <p>La cancelación de una transacción estará sujeta al tiempo que ha transcurrido desde la operación, sepodrá reflejar como una cancelación o como reverso.</p>
+                            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-cancelacion">Cancelar Transaccion</button>
+                            <div class="modal modal-warning fade" id="modal-cancelacion" style="display: none;">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">×</span></button>
+                                            <h4 class="modal-title">Advertencia</h4>
                                         </div>
-                                        <div id="devolucion_iniciada" class="hidden">
+                                        <div class="modal-body">
+                                            <p>Esta seguro de iniciar la cancelación del pago de la transacción <b>{{ $transaccion->uuid }}</b> realizada el <b>{{ $transaccion->created_at }}</b> con un monto de  <strong>$ {{ number_format($transaccion->monto, 2) }}</strong>?</p>
                                         </div>
-                                        <div class="modal modal-warning fade" id="modal-contracargo" style="display: none;">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                            <span aria-hidden="true">×</span></button>
-                                                        <h4 class="modal-title">Advertencia de devolución</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Estas seguro de iniciar la devolución del pago de la transacción <b>{{ $transaccion->uuid }}</b> realizada el <b>{{ $transaccion->created_at }}</b> con un monto de  <strong>$ {{ number_format($transaccion->monto, 2) }}</strong>?</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Yes</button>
-                                                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        <div class="modal-footer">
+                                            <button id="cancelacion" type="button" class="btn btn-outline pull-left" data-dismiss="modal">Si</button>
+                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
                                         </div>
                                     </div>
                                 </div>
-                            @endif
-
-                            </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+
                 @if($transaccion->operacion == "preautorizacion")
                     <div class="box box-warning">
                         <div class="box-header">
@@ -340,7 +344,7 @@
                                             <p>Estas seguro?</p>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Yes</button>
+                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Si</button>
                                             <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">No</button>
                                         </div>
                                     </div>
@@ -368,9 +372,9 @@
                     </div>
                 @endif
                 @if($transaccion->operacion == "pago")
-                    <div class="box box-danger">
+                    <!--div class="box box-danger">
                         <div class="box-header">
-                            <h3 class="box-title">Autorizacion</h3>
+                            <h3 class="box-title">Contracargo</h3>
                             <p>Para realizar la disputa de un cargo (contracargo) se debera iniciar un proceso de disputa con el comercio</p>
                             <p>Para continuar con el proceso por favor de clic en inciar contracargo</p>
                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal-contracargo">Inciar Contracargo</button>
@@ -393,7 +397,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div-->
                 @endif
             </div>
         </div>

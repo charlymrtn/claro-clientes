@@ -22,7 +22,7 @@
 @stop
 @section('content')
     @can('editar perfil clientes')
-        <form enctype="multipart/form-data" id="perfil-edita-avatar" name="perfil-edita-avatar" method="post" action="{{ route('perfil.edita_avatar') }}">
+        <form enctype="multipart/form-data" id="perfil-edita-avatar" name="perfil-edita-avatar" method="post" action="{{ route('clientes.perfil.edita_avatar') }}">
             {!! csrf_field() !!}
             <div class="row">
                 <div class="col-sm-6">
@@ -67,7 +67,7 @@
                     <div class="box box-danger">
                         <div class="box-body table-responsive">
                             <button type="submit" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button>
-                            <a href="{{ route('perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+                            <a href="{{ route('clientes.perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
                         </div>
                     </div>
                 </div>
