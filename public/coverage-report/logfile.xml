@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="0.851931">
-    <testsuite name="Unit Tests" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="0.851931">
-      <testsuite name="Tests\Unit\App\Classes\Sistema\MensajeTest" file="/home/vagrant/claropay/clientes/tests/Unit/App/Classes/Sistema/MensajeTest.php" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="0.851931">
-        <testcase name="test_envia" class="Tests\Unit\App\Classes\Sistema\MensajeTest" classname="Tests.Unit.App.Classes.Sistema.MensajeTest" file="/home/vagrant/claropay/clientes/tests/Unit/App/Classes/Sistema/MensajeTest.php" line="32" assertions="5" time="0.851931"/>
+  <testsuite name="" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="8.521742">
+    <testsuite name="Unit Tests" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="8.521742">
+      <testsuite name="Tests\Unit\App\Classes\Sistema\MensajeTest" file="/home/vagrant/claropay/clientes/tests/Unit/App/Classes/Sistema/MensajeTest.php" tests="1" assertions="5" errors="0" failures="0" skipped="0" time="8.521742">
+        <testcase name="test_envia" class="Tests\Unit\App\Classes\Sistema\MensajeTest" classname="Tests.Unit.App.Classes.Sistema.MensajeTest" file="/home/vagrant/claropay/clientes/tests/Unit/App/Classes/Sistema/MensajeTest.php" line="32" assertions="5" time="8.521742"/>
       </testsuite>
     </testsuite>
   </testsuite>
