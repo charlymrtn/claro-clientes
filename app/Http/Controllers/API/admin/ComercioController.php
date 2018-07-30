@@ -95,7 +95,7 @@ class ComercioController extends Controller
             // Envía datos paginados
             return ejsend_success(['comercios' => $cComercios]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al obtener el recurso: ' . $e->getMessage()]);
         }
     }
@@ -126,7 +126,7 @@ class ComercioController extends Controller
             return ejsend_success(['comercio' => $oComercio]);
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al obtener el recurso: ' . $e->getMessage()]);
         }
     }
@@ -177,7 +177,7 @@ class ComercioController extends Controller
             // Regresa resultados
             return ejsend_success(['comercio' => $oComercio]);
         } catch (\Exception $e) {
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al crear el recurso: ' . $e->getMessage()]);
         }
     }
@@ -206,7 +206,7 @@ class ComercioController extends Controller
         }
         // @todo: Validar datos de entrada
         // Actualiza usuario
-        $oComercio->update($request->all());
+        $oComercio->update($oRequest->all());
         return ejsend_success(['comercio' => $oComercio]);
     }
 
@@ -240,7 +240,7 @@ class ComercioController extends Controller
             // Regresa resultado
             return ejsend_success(['comercio' => $oComercio]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
         }
     }
@@ -274,7 +274,7 @@ class ComercioController extends Controller
             // Regresa resultado
             return ejsend_success([], 204);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
         }
 

@@ -96,7 +96,7 @@ class UsuarioController extends Controller
             // Envía datos paginados
             return ejsend_success(['usuarios' => $cUsuarios]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al obtener el recurso: ' . $e->getMessage()]);
         }
     }
@@ -144,7 +144,7 @@ class UsuarioController extends Controller
             // Regresa resultados
             return ejsend_success(['usuario' => $oUsuario]);
         } catch (\Exception $e) {
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al crear el recurso: ' . $e->getMessage()]);
         }
     }
@@ -177,7 +177,7 @@ class UsuarioController extends Controller
             }
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al obtener el recurso: ' . $e->getMessage()]);
         }
     }
@@ -225,7 +225,7 @@ class UsuarioController extends Controller
             $oUsuario->update($oRequest->all());
             return ejsend_success(['usuario' => $oUsuario]);
         } catch (\Exception $e) {
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al actualizar el recurso: ' . $e->getMessage()]);
         }
     }
@@ -253,7 +253,7 @@ class UsuarioController extends Controller
             // Regresa resultado
             return ejsend_success(['usuario' => $oUsuario]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
         }
     }
@@ -280,7 +280,7 @@ class UsuarioController extends Controller
             // Regresa resultado
             return ejsend_success([], 204);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al destruir el recurso: ' . $e->getMessage()]);
         }
     }

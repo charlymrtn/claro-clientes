@@ -14,7 +14,7 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout'); // Get logout hack
 
 // Clientes
-Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'middleware' => ['auth', 'permission:accesar backend clientes']], function () {
+Route::group(['namespace' => 'Clientes', 'prefix' => 'clientes', 'as' => 'clientes.', 'middleware' => ['auth', 'permission:accesar backend clientes']], function () {
     require base_path('routes/web/clientes/clientes.php');
 });
 

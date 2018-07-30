@@ -57,6 +57,13 @@ class UserPermissionsSeeder extends Seeder
         Permission::create(['id' => 150, 'name' => 'listar transacciones clientes', 'guard_name' => 'web']);
         Permission::create(['id' => 151, 'name' => 'editar transacciones clientes', 'guard_name' => 'web']);
 
+        Permission::create(['id' => 160, 'name' => 'listar tokens clientes', 'guard_name' => 'web']);
+        Permission::create(['id' => 161, 'name' => 'editar tokens clientes', 'guard_name' => 'web']);
+        Permission::create(['id' => 162, 'name' => 'crear tokens clientes', 'guard_name' => 'web']);
+        Permission::create(['id' => 163, 'name' => 'revocar tokens clientes', 'guard_name' => 'web']);
+
+        Permission::create(['id' => 170, 'name' => 'listar vpos clientes', 'guard_name' => 'web']);
+
         // Roles y permisos
 
         // Superadmin
@@ -67,13 +74,16 @@ class UserPermissionsSeeder extends Seeder
         $rol->permissions()->sync([1, 2, 4, 5, 6, 7, 8, 10, 11, 12, 13, 20, 40, 41, 42, 43, 50, 51]);
         // Cliente
         $rol = Role::create(['id' => 100, 'name' => 'cliente', 'guard_name' => 'web']);
-        $rol->permissions()->sync([101, 104, 105, 106, 108, 150, 151]);
+        $rol->permissions()->sync([101, 104, 105, 106, 108, 150, 151, 160, 161, 162, 163]);
 
         // Usuarios <-> Roles
         DB::table('model_has_roles')->insert([
             ['role_id' => 11, 'model_id' => 1, 'model_type' => 'App\Models\User'],
             ['role_id' => 10, 'model_id' => 2, 'model_type' => 'App\Models\User'],
             ['role_id' => 100, 'model_id' => 3, 'model_type' => 'App\Models\User'],
+        ]);
+        DB::table('model_has_permissions')->insert([
+            ['permission_id' => 170, 'model_id' => 3, 'model_type' => 'App\Models\User'],
         ]);
 
 

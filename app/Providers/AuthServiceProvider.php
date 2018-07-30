@@ -33,5 +33,11 @@ class AuthServiceProvider extends ServiceProvider
         if (Schema::hasTable('roles')) {
             Passport::tokensCan(Role::where('guard_name', 'api')->pluck('guard_name', 'name')->toArray());
         }
+        //Define Scopes de tokens Passport
+        Passport::tokensCan([
+            'listar' => 'Puede listar',
+            'modificar' => 'Modificar listados',
+            'eliminar'  => 'Eliminar listados',
+        ]);
     }
 }

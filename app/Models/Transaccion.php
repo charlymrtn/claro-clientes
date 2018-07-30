@@ -8,7 +8,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Transaccion extends Model
 {
-    use LogsActivity;
+    // @todo: Programar soporte de uuid como llave de LogsActivity;
+    // use LogsActivity;
 
     //Nombre de la tabla
     protected $table = 'transaccion';

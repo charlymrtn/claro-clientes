@@ -15,6 +15,6 @@ Route::group(['namespace' => 'API\Admin', 'prefix' => 'admin', 'as' => 'admin.',
     // Transacciones
     Route::apiResource('/transaccion', 'TransaccionController');
     //Ping
-    Route::get('/ping', 'PingController@index');
+    Route::get('/ping', 'PingController@index')->name('ping');
 
 });

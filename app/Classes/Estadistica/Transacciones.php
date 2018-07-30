@@ -134,7 +134,7 @@ class Transacciones
                     }
                 }
             )
-            ->whereBetween('created_at', [$sFechaInicioHora, $sFechaFinHora])
+            ->whereBetween('created_at', [$oFecha->copy()->startOfDay(), $oFecha->copy()->endOfDay()])
             ->where(
                 function ($q) use ($aFiltros) {
                     return $this->transaccion_filtra($q, $aFiltros);

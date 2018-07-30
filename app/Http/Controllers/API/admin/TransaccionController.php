@@ -96,7 +96,7 @@ class TransaccionController extends Controller
             return ejsend_success(['transaccion' => $oTransaccion]);
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al obtener el recurso: ' . $e->getMessage()]);
         }
     }
@@ -130,7 +130,7 @@ class TransaccionController extends Controller
             // Regresa resultados
             return ejsend_success(['transaccion' => $oTransaccion]);
         } catch (\Exception $e) {
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al crear el recurso: ' . $e->getMessage()]);
         }
     }
@@ -157,9 +157,15 @@ class TransaccionController extends Controller
             Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ': Transacción no encontrada:' . $uuid);
             return ejsend_fail(['code' => 404, 'type' => 'General', 'message' => 'Objeto no encontrada.'], 404);
         }
+        // Agrega valores
+        $oRequest->merge([
+            'transaccion_estatus_id' => $this->mTransaccionEstatus->where('indice', $oRequest->input('estatus'))->value('id'),
+            'pais_id' => $this->mPais->where('iso_a3', $oRequest->input('pais'))->value('id'),
+            'moneda_id' => $this->mMoneda->where('iso_a3', $oRequest->input('moneda'))->value('id'),
+        ]);
         // @todo: Validar datos de entrada
-        // Actualiza usuario
-        $oTransaccion->update($request->all());
+        // Actualiza transaccion
+        $oTransaccion->update($oRequest->all());
         return ejsend_success(['transaccion' => $oTransaccion]);
     }
 
@@ -193,7 +199,7 @@ class TransaccionController extends Controller
             // Regresa resultado
             return ejsend_success(['transaccion' => $oTransaccion]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
         }
     }
@@ -227,7 +233,7 @@ class TransaccionController extends Controller
             // Regresa resultado
             return ejsend_success([], 204);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error al borrar el recurso: ' . $e->getMessage()]);
         }
 

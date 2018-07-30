@@ -96,7 +96,7 @@ class TransaccionController extends Controller
             }
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             // Muestra plantilla de error
             return view('clientes/errores/excepcion')->with(['exception' => $e]);
         }
