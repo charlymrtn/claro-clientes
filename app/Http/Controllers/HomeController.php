@@ -29,8 +29,8 @@ class HomeController extends Controller
             return view('index');
         } else if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('superadmin')) {
             return Redirect::route('admin');
-        } else if (Auth::user()->hasRole('cliente' )) {
-            return Redirect::route('clientes');
+        } else if (Auth::user()->hasRole('cliente')) {
+            return Redirect::route('clientes.inicio');
         }
     }
 }

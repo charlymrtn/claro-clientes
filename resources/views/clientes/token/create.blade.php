@@ -26,23 +26,26 @@
             <h1>Nuevo Token</h1>
             <br>
             <div class="box box-default">
-                <form id="form-token" name="form-token" action="{{route('token.store')}}" mothod="POST">
+                <form id="form-token" name="form-token" action="{{route('clientes.token.store')}}" method="POST">
+                @csrf
                 <!-- /.box-header -->
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
                             <div id="nombre" class="form-group">
                                 <label>Nombre del token</label>
-                                <input type="text" required class="form-control" id="name" placeholder="Ingresa el nombre o descripción del token" >
+                                <input type="text" required class="form-control" id="name" name="name" placeholder="Ingresa el nombre o descripción del token" >
                                 <span id="error" class="help-block"></span>
                             </div>
                             <div class="form-group">
                                 <label>Permisos</label>
-                                <select name="afiliacion" class="form-control" tabindex="12" >
-                                  <option value="cliente-tarjetas">Tarjetas (Operaciones sobre tarjetas)</option>
-                                  <option value="cliente-transacciones">Transacciones y cargos</option>
-                                  <option value="cliente-suscripciones">Suscripciones</option>
-                                </select>
+                                <ul>
+                                    @foreach($permisos as $permiso)
+                                    <input id="permiso_{{ $permiso->id }}" type="checkbox" name="permisos[]" value="{{ $permiso->id }}">
+                                    <label for="permiso_{{ $permiso->id }}">{{ $permiso->descripcion }}</label>
+                                    <br>
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -52,7 +55,7 @@
                         <div class="box box-danger">
                             <div class="box-body table-responsive">
                                 <button id="generar" type="submit" class="btn btn-success"><i class="fa fa-key"></i> Generar token</button>
-                                <a href="{{route('token.index')}}" type="button" class="btn btn-danger pull-right">Cancelar</a>
+                                <a href="{{route('clientes.token.index')}}" type="button" class="btn btn-danger pull-right">Cancelar</a>
                             </div>
                         </div>
                     </div>

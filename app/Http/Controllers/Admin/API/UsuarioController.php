@@ -57,7 +57,7 @@ class UsuarioController extends Controller
             // Envía datos paginados
             return response()->json(["status" => "success", "data" => ["usuarios" => $aUsuarios]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
 
@@ -89,7 +89,7 @@ class UsuarioController extends Controller
             }
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             // Muestra plantilla de error
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
@@ -173,7 +173,7 @@ class UsuarioController extends Controller
             // Envía datos paginados
             return response()->json(["status" => "success", "data" => ["id" => $id]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
     }
@@ -223,7 +223,7 @@ class UsuarioController extends Controller
             $oUsuario = User::create($request->all());
               return response()->json(["status" => "success", "data" => ["id" => $oUsuario->id]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
     }
@@ -248,7 +248,7 @@ class UsuarioController extends Controller
             return response()->json(["status" => "success", "data" => ["id" => $oUsuario->id]]);
         } catch (\Exception $e) {
             Alert::error("No se puede borrar el usuario. Error: " . $e->getMessage())->flash();
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
     }

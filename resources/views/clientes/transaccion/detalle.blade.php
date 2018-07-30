@@ -5,7 +5,7 @@
 @section('content_header')
     <h1>Transacción <small> Detalles</small></h1>
     @component('clientes/transaccion/breadcrumbs')
-        <li><a href="{{ route('transaccion.show', ['id' => $transaccion->uuid]) }}"><i class="fa fa-eye"></i> Detalle</a></li>
+        <li><a href="{{ route('clientes.transaccion.show', ['id' => $transaccion->uuid]) }}"><i class="fa fa-eye"></i> Detalle</a></li>
     @endcomponent
 @stop
 
@@ -14,11 +14,11 @@
         jQuery(function($){
             // Inicia devolución
             $('#devolucion').click(function() {
-                window.location = "{{ route('vpos.devolucion', ['uuid' => $transaccion->uuid]) }}";
+                window.location = "{{ route('clientes.vpos.devolucion', ['uuid' => $transaccion->uuid]) }}";
             });
             // Inicia cancelación
             $('#cancelacion').click(function() {
-                window.location = "{{ route('vpos.cancelacion', ['uuid' => $transaccion->uuid]) }}";
+                window.location = "{{ route('clientes.vpos.cancelacion', ['uuid' => $transaccion->uuid]) }}";
             });
         });
     </script>

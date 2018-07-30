@@ -20,9 +20,9 @@
             <div class="box box-default">
                 <div class="box-header with-border">
                     <h3 class="box-title">Listado de tokens</h3>
-                    <a href="{{route('token.create')}}" class="btn btn-info pull-right">
-                        Nuevo token
-                    </a>
+                    <div class="box-tools">
+                        <a href="{{ route('clientes.token.create') }}" role="button" class="btn btn-success btn-sm"><i class="fa fa-plus"></i> Crear token</a>
+                    </div>
                 </div>
                 <div class="box-body"  id="table2">
                     <div class="row">
@@ -33,6 +33,7 @@
                                     <th>ID</th>
                                     <th data-priority="1">Nombre</th>
                                     <th data-priority="2">Permisos</th>
+                                    <th data-priority="2">Activo</th>
                                     <th> </th>
                                 </tr>
                                 </thead>
@@ -71,7 +72,8 @@
                             {data: 'id', visible: false},
                             {data: 'nombre'},
                             {data: 'permisos'},
-                            {data: null, orderable: false, render: function (d) { return '<a href="{{ route('token.index') }}/' + d.id + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
+                            {data: 'revocado', render: function (d) { if(d) { return '<span class="label label-danger">Revocado</span>' } else { return '<span class="label label-success">Activo</span>'} } },
+                            {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.token.index') }}/' + d.id + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
                         ],
                         // Opciones iguales en todas las tablas.
                         "order": [[0, "desc"]],

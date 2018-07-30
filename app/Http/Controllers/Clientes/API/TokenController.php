@@ -60,17 +60,31 @@ class TokenController extends Controller
                 ->paginate((int) $oRequest->input('per_page', 25));
             // Obtiene tokens del API
             $cApiTokens = $this->oToken->getApiTokens($sComercio);
+            // Obtiene permisos
+            $cPermisos = $this->oToken->getPermisos();
+            $oDefaultPermisos = new \stdClass();
+            $oDefaultPermisos->label = null;
             // Une datos
             foreach($aToken->items() as $token) {
                 $oApiToken = $cApiTokens->firstWhere('id', $token->id);
-                $token->nombre = $oApiToken->name;
-                $token->permisos = $oApiToken->scopes;
-                $token->revocado = $oApiToken->revoked;
+                if (!empty($oApiToken)) {
+                    $token->nombre = $oApiToken->name;
+                    $aTokenPermisos = [];
+                    foreach($oApiToken->scopes as $sScope) {
+                        $aTokenPermisos[] = $cPermisos->get($sScope, $oDefaultPermisos)->label ?? ucfirst($sScope);
+                    }
+                    $token->permisos = $aTokenPermisos;
+                    $token->revocado = $oApiToken->revoked;
+                } else {
+                    $token->nombre = 'Desconocido';
+                    $token->permisos = [];
+                    $token->revocado = true;
+                }
             }
             // Envía datos paginados
             return response()->json(["status" => "success", "data" => ["token" => $aToken]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
     }
@@ -116,7 +130,7 @@ class TokenController extends Controller
             $oToken = Token::create($request->all());
             return response()->json(["status" => "success", "data" => ["id" => $oToken->id]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se puede guardar el recurso. Error: " . $e->getMessage()]]);
         }
     }

@@ -70,7 +70,7 @@
                 }
             }
             function fillTrxResult(data) {
-                $('#transaccion-id').html("<a href=\"{{ route('transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
+                $('#transaccion-id').html("<a href=\"{{ route('clientes.transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
                 $('#transaccion-autorizacion').html(data.autorizacion);
                 $('#transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
                 $('#transaccion-monto').html(numeral(data.monto).format('$0,0.00'));
@@ -86,7 +86,7 @@
 
             }
             function fillErrorResult(data) {
-                //$('#error-transaccion-id').html("<a href=\"{{ route('transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
+                //$('#error-transaccion-id').html("<a href=\"{{ route('clientes.transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
                 $('#error-transaccion-descripcion').html(data.resultado_descripcion);
                 //$('#error-transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
             }
@@ -160,7 +160,7 @@
                 event.preventDefault();
                 // Envía datos
                 $.post(
-                    '{{ route('vpos.cargo') }}',
+                    '{{ route('clientes.vpos.cargo') }}',
                     $("#vpos").serialize(),
                     function(response) {
                         //$('#result').html(response);

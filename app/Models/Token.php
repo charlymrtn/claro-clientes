@@ -81,11 +81,19 @@ class Token extends Model
         ])->get();
         // Obtiene token del API
         $cApiTokens = $this->getApiTokens($comercio_uuid);
+        // Obtiene permisos
+        $cPermisos = $this->getPermisos();
+        $oDefaultPermisos = new \stdClass();
+        $oDefaultPermisos->label = null;
         // Une datos
         foreach($cLocalTokens as $token) {
             $oApiToken = $cApiTokens->firstWhere('id', $token->id);
             $token->nombre = $oApiToken->name;
-            $token->permisos = $oApiToken->scopes;
+            $aTokenPermisos = [];
+            foreach($oApiToken->scopes as $sScope) {
+                $aTokenPermisos[] = $cPermisos->get($sScope, $oDefaultPermisos)->label ?? ucfirst($sScope);
+            }
+            $token->permisos = $aTokenPermisos;
             $token->revocado = $oApiToken->revoked;
         }
         // Regresa collection con tokens completos
@@ -104,11 +112,19 @@ class Token extends Model
         $cLocalTokens = Token::where('comercio_uuid', $comercio_uuid)->get();
         // Obtiene tokens del API
         $cApiTokens = $this->getApiTokens($comercio_uuid);
+        // Obtiene permisos
+        $cPermisos = $this->getPermisos();
+        $oDefaultPermisos = new \stdClass();
+        $oDefaultPermisos->label = null;
         // Une datos
         foreach($cLocalTokens as $token) {
             $oApiToken = $cApiTokens->firstWhere('id', $token->id);
             $token->nombre = $oApiToken->name;
-            $token->permisos = $oApiToken->scopes;
+            $aTokenPermisos = [];
+            foreach($oApiToken->scopes as $sScope) {
+                $aTokenPermisos[] = $cPermisos->get($sScope, $oDefaultPermisos)->label ?? ucfirst($sScope);
+            }
+            $token->permisos = $aTokenPermisos;
             $token->revocado = $oApiToken->revoked;
         }
         // Regresa collection con tokens completos
@@ -165,25 +181,88 @@ class Token extends Model
      * Crea token en Core API
      *
      * @param string $comercio_uuid UUID del comercio
-     * @param array $aTokenRequest
+     * @param string $sName
+     * @param array $aScopes
      *
-     * @return object Collection con tokens del comercio
+     * @return array Array con token creado
      */
-    public function storeApiToken(string $comercio_uuid, array $aTokenRequest): Collection
+    public function storeApiToken(string $comercio_uuid, string $sName, array $aScopes): ?string
     {
-        dd('storeApiToken');
+        // Prepara parámetros
+        $aRequestParams = json_encode([
+            'name' => $sName,
+            'scopes' => $aScopes,
+        ]);
         // API
-//        $aTokensApi = [];
-//        $oMensaje = new Mensaje();
-//        $oMensajeRespuesta = $oMensaje->envia('api', '/admin/comercio/' . $comercio_uuid . '/token/' . $token_id, 'GET');
-//        if ($oMensajeRespuesta->status == 'success') {
-//            $oMensajeData = json_decode($oMensajeRespuesta->response);
-//            if (isset($oMensajeData->data->tokens->data)) {
-//                $aTokensApi = $oMensajeData->data->tokens->data;
-//            }
-//        }
-        // Regresa arreglo con tokens
-        return collect($aTokensApi);
+        $oTokenApi = null;
+        $oMensaje = new Mensaje();
+        $oMensajeRespuesta = $oMensaje->envia('api', '/admin/comercio/' . $comercio_uuid . '/token/', 'POST', $aRequestParams);
+        if ($oMensajeRespuesta->status == 'success') {
+            $oMensajeData = json_decode($oMensajeRespuesta->response);
+            if (isset($oMensajeData->data->token)) {
+                $oTokenApi = $oMensajeData->data->token;
+            }
+        }
+        // Guarda token localmente
+        $result = $this->create([
+            'id' => $oTokenApi->token->id, // Id del token
+            'comercio_uuid' => $comercio_uuid, // Id del comercio
+            'token' => $oTokenApi->accessToken, // Token generado
+        ]);
+        // Regresa id si fue creado exitosamente
+        if (!empty($result)) {
+            return $oTokenApi->token->id;
+        } else {
+            return null;
+        }
     }
 
+    /**
+     * Revoca roken
+     *
+     * @param string $comercio_uuid UUID del comercio
+     * @param string $sName
+     * @param array $aScopes
+     *
+     * @return array Array con token creado
+     */
+    public function revokeToken(string $comercio_uuid, string $sTokenId): bool
+    {
+        // API
+        $oMensaje = new Mensaje();
+        $oMensajeRespuesta = $oMensaje->envia('api', '/admin/comercio/' . $comercio_uuid . '/token/' . $sTokenId . '/revoke', 'DELETE');
+        if ($oMensajeRespuesta->status == 'success') {
+            $oMensajeData = json_decode($oMensajeRespuesta->response);
+            if (isset($oMensajeData->data->token)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Obtiene lista de permisos disponibles con labels
+     *
+     * @return object Collection con permisos disponibles
+     */
+    public function getPermisos(): Collection
+    {
+        return collect([
+            'cliente-tarjetas' => (object) [
+                'id' => 'cliente-tarjetas',
+                'label' => 'Tarjetas',
+                'descripcion' => 'Tarjetas (Operaciones sobre tarjetas)',
+            ],
+            'cliente-transacciones' => (object) [
+                'id' => 'cliente-transacciones',
+                'label' => 'Transaciones',
+                'descripcion' => 'Transacciones y cargos',
+            ],
+            'cliente-suscripciones' => (object) [
+                'id' => 'cliente-suscripciones',
+                'label' => 'Suscripciones',
+                'descripcion' => 'Suscripciones y planes',
+            ],
+        ]);
+    }
 }

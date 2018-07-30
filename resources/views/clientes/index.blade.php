@@ -22,7 +22,7 @@
             <div class="icon">
                 <i class="fa fa-money"></i>
             </div>
-            <a href="{{ route('transaccion.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('clientes.transaccion.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     <div class="col-lg-3 col-xs-6">
@@ -34,7 +34,7 @@
             <div class="icon">
                 <i class="fa fa-exchange"></i>
             </div>
-            <a href="{{ route('transaccion.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('clientes.transaccion.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     @endcan
@@ -50,7 +50,7 @@
             <div class="icon">
                 <i class="fa fa-key"></i>
             </div>
-            <a href="{{ route('token.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
+            <a href="{{ route('clientes.token.index') }}" class="small-box-footer">Más información <i class="fa fa-arrow-circle-right"></i></a>
         </div>
     </div>
     @endcan
@@ -144,7 +144,7 @@
                 </script>
             </div>
             <div class="box-footer text-center">
-                <a href="{{ route('transaccion.index') }}" class="uppercase">Ver transacciones</a>
+                <a href="{{ route('clientes.transaccion.index') }}" class="uppercase">Ver transacciones</a>
             </div>
         </div>
     </div>
@@ -180,7 +180,7 @@
                 </script>
             </div>
             <div class="box-footer text-center">
-                <a href="{{ route('transaccion.index') }}" class="uppercase">Ver transacciones</a>
+                <a href="{{ route('clientes.transaccion.index') }}" class="uppercase">Ver transacciones</a>
             </div>
         </div>
     </div>
@@ -214,14 +214,14 @@
                         <tr>
                             <td>{{ __('activity.' . $actividad->description) }}</td>
                             <td>{{ $actividad->created_at }}</td>
-                            <td><a href="{{ route('actividad.show', ['id' => $actividad->id]) }}" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Ver</a></td>
+                            <td><a href="{{ route('clientes.actividad.show', ['id' => $actividad->id]) }}" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Ver</a></td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
             <div class="box-footer text-center">
-                <a href="{{ route('actividad.index') }}" class="uppercase">Ver toda la actividad</a>
+                <a href="{{ route('clientes.actividad.index') }}" class="uppercase">Ver toda la actividad</a>
             </div>
         </div>
     </div>
@@ -248,14 +248,14 @@
                         @else
                             <img src="{{ Gravatar::src($usuario->email) }}" alt="{{ $usuario->avatar }}"  width="90" height="90" class="clearfix"  onerror="this.src='/avatars/users/default.jpg'">
                         @endif
-                            <a class="users-list-name" href="{{ route('usuario.show', ['id' => $usuario->id]) }}">{{ $usuario->name }}</a>
+                            <a class="users-list-name" href="{{ route('clientes.usuario.show', ['id' => $usuario->id]) }}">{{ $usuario->name }}</a>
                             <span class="users-list-date">{{ $usuario->created_at->diffForHumans() }}</span>
                         </li>
                     @endforeach
                 </ul>
             </div>
             <div class="box-footer text-center">
-                <a href="{{ route('clientes') }}" class="uppercase">Ver todos los usuarios</a>
+                <a href="{{ route('clientes.inicio') }}" class="uppercase">Ver todos los usuarios</a>
             </div>
         </div>
     </div>

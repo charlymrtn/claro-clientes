@@ -73,7 +73,7 @@ class TransaccionController extends Controller
             // Envía datos paginados
             return response()->json(["status" => "success", "data" => ["transaccion" => $aTransaccion]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se pueden mostrar los recurso. Error: " . $e->getMessage()]]);
         }
     }
@@ -119,7 +119,7 @@ class TransaccionController extends Controller
             $oTransaccion = Transaccion::create($request->all());
             return response()->json(["status" => "success", "data" => ["id" => $oTransaccion->id]]);
         } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return response()->json(["status" => "fail", "data" => ["message" => "No se puede guardar el recurso. Error: " . $e->getMessage()]]);
         }
     }

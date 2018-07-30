@@ -15,7 +15,7 @@
 @stop
 
 @section('content')
-    <form  id="perfil-edita-password" name="usuario-edita" method="post" action="{{ route('perfil.update') }}">
+    <form  id="perfil-edita-password" name="usuario-edita" method="post" action="{{ route('clientes.perfil.update') }}">
         {!! csrf_field() !!}
         @can('editar perfil')
         <div class="row">
@@ -43,7 +43,7 @@
                 <div class="box box-danger">
                     <div class="box-body table-responsive">
                         <button type="submit" id="cambiar" class="btn btn-success"><i class="fa fa-floppy-o"></i> Cambiar</button>
-                        <a href="{{ route('perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
+                        <a href="{{ route('clientes.perfil.index') }}" role="button" class="btn btn-danger"><i class="fa fa-ban"></i> Cancelar</a>
                         <button id="limpiar-datos" type="reset" class="btn btn-default"><i class="fa fa-refresh"></i> Limpiar datos</button>
                     </div>
                 </div>

@@ -30,7 +30,7 @@
                     <div class="box-body box-profile">
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item">
-                                <b>Transacción ID</b> <span class="pull-right"><a href="{{ route('transaccion.index') }}/{{ $transaccion->uuid ?? 0}}" class="btn btn-primary btn-sm" role="button">{{ $transaccion->uuid ?? 0}}</a></span>
+                                <b>Transacción ID</b> <span class="pull-right"><a href="{{ route('clientes.transaccion.index') }}/{{ $transaccion->uuid ?? 0}}" class="btn btn-primary btn-sm" role="button">{{ $transaccion->uuid ?? 0}}</a></span>
                             </li>
                             <li class="list-group-item">
                                 <b>Autorización</b> <span class="pull-right">{{ $respuesta->autorizacion ?? 'NA'}}</span>

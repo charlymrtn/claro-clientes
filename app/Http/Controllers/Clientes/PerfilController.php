@@ -58,7 +58,7 @@ class PerfilController extends Controller
             }
         } catch (\Exception $e) {
             // Registra error
-            Log::error('Error en ' . __METHOD__ . ' línea ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error en ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
             // Muestra plantilla de error
             return view('clientes/errores/excepcion')->with(['exception' => $e]);
         }
@@ -136,7 +136,7 @@ class PerfilController extends Controller
             return redirect()->route('perfil.index');
         } catch (\Exception $e) {
             Alert::error("No se puede actualizar el registro. Error: " . $e->getMessage())->flash();
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return redirect()->route('perfil.index');
         }
     }
@@ -220,7 +220,7 @@ class PerfilController extends Controller
             }
         } catch (\Exception $e) {
             Alert::error("No se pudo cambiar el avatar. Error: " . $e->getMessage())->flash();
-            Log::error('Error on ' . __METHOD__ . ' line ' . __LINE__ . ':' . $e->getMessage());
+            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
             return redirect()->route('perfil.avatar');
         }
         // Regresa al index de usuario
