@@ -67,7 +67,6 @@ class AdminController extends Controller
         if ($oPermiso == null) {
             $oPermiso = Permission::create(['id' => 170, 'name' => 'listar vpos clientes', 'guard_name' => 'web']);
         }
-        $aPermisos[] = $oPermiso->id;
 
         // Asigna permisos a roles
         $oRole = Role::find(100); // Cliente
