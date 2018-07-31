@@ -31,8 +31,11 @@ class ClientesController extends Controller
      */
     public function index()
     {
+        // Define comercio a usar
+        $sComercio = auth()->user()->comercio_uuid;
         // Obtiene datos del dashboard
         $oEstadisticasTransacciones = new EstadisticasTransacciones();
+        $oEstadisticasTransacciones->setComercio($sComercio);
         $aTotalTransaccionesDia = $oEstadisticasTransacciones->total_dia();
         $cTransaccionesDiaXHora = $oEstadisticasTransacciones->dia_xhora();
         $aTrxDET = $oEstadisticasTransacciones->total_dia_xestatus_xtipo(['operacion' => ['pago', 'autorizacion', 'preautorizacion']]);

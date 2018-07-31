@@ -34,8 +34,11 @@ class TransaccionController extends Controller
      */
     public function index()
     {
+        // Define comercio a usar
+        $sComercio = auth()->user()->comercio_uuid;
         // Obtiene datos del dashboard
         $oEstadisticasTransacciones = new EstadisticasTransacciones();
+        $oEstadisticasTransacciones->setComercio($sComercio);
         $aTotalTransaccionesDia = $oEstadisticasTransacciones->total_dia();
         $aTotalTransaccionesMes = $oEstadisticasTransacciones->total_mes();
         // Carga vista
@@ -84,8 +87,9 @@ class TransaccionController extends Controller
                 return response()->json(["status" => "fail", "data" => ["errors" => $oValidator->errors()]]);
             }
             // Busca transaccion
-            //$oTransaction = $this->mTransaccion->with(['estatus', 'moneda', 'pais'])->where('uuid', $id)->get()->first();
-            $oTransaction = $this->mTransaccion->where('uuid', $id)->get()->first();
+            $sComercio = auth()->user()->comercio_uuid;
+            //$oTransaction = $this->mTransaccion->with(['estatus', 'moneda', 'pais'])->where('comercio_uuid', $sComercio)->find($id);
+            $oTransaction = $this->mTransaccion->where('comercio_uuid', $sComercio)->find($id);
             if ($oTransaction == null) {
                 return view('clientes/errores/no_encontrado')->with(['model' => 'Transaccion', 'id' => $id]);
             } else {

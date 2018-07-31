@@ -45,18 +45,12 @@ class TransaccionController extends Controller
             }
             // Filtros
             $sFiltro = $oRequest->input('search', false);
-            $sComercio = $oRequest->input('comercio_uuid', false);
+            //$sComercio = $oRequest->input('comercio_uuid', auth()->user()->comercio_uuid);
+            $sComercio = auth()->user()->comercio_uuid;
             // Filtro
             $aTransaccion = $this->mTransaccion
                 ->with('estatus')
-                ->where(
-                    function ($q) use ($sComercio) {
-                        if (!empty($sComercio)) {
-                            return $q
-                                ->orWhere('comercio_uuid', '=', $sComercio);
-                        }
-                    }
-                )
+                ->where('comercio_uuid', $sComercio)
                 ->where(
                     function ($q) use ($sFiltro) {
                         if ($sFiltro !== false) {
@@ -96,32 +90,7 @@ class TransaccionController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $oValidator = Validator::make($request->all(), [
-                'uuid' => 'uuid',
-                'comercio_uuid' => 'numeric',
-                'prueba' => 'boolean',
-                'operacion' => 'in:pago,preautorizacion,autorizacion,cancelacion',
-                'transaccion_estatus_id' => 'numeric',
-                'pais_id' => 'numeric',
-                'moneda_id' => 'numeric',
-                'monto' => 'numeric',
-                'forma_pago' => 'min:2',
-                'datos_pago' => 'min:2',
-                'datos_comercio' => 'min:2',
-                'datos_claropagos' => 'min:2',
-                'datos_procesador' => 'min:2',
-                'datos_destino' => 'min:2',
-            ]);
-            if ($oValidator->fails()) {
-                return response()->json(["status" => "fail", "data" => ["errors" => $oValidator->errors()]]);
-            }
-            $oTransaccion = Transaccion::create($request->all());
-            return response()->json(["status" => "success", "data" => ["id" => $oTransaccion->id]]);
-        } catch (\Exception $e) {
-            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
-            return response()->json(["status" => "fail", "data" => ["message" => "No se puede guardar el recurso. Error: " . $e->getMessage()]]);
-        }
+        //
     }
 
     /**

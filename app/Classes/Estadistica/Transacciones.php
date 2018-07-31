@@ -21,7 +21,7 @@ class Transacciones
     // {{{ properties
 
     // ID de comercio
-    protected $oComercio;
+    protected $sComercio;
     protected $oTransaccion;
 
     // }}}
@@ -91,9 +91,8 @@ class Transacciones
      *
      * @return void
      */
-    public function __construct(Comercio $comercio = null, Transaccion $transaccion = null)
+    public function __construct(Transaccion $transaccion = null)
     {
-        $this->oComercio = $comercio;
         $this->oTransaccion = $transaccion ?? new Transaccion();
     }
 
@@ -104,9 +103,9 @@ class Transacciones
      *
      * @return void
      */
-    public function setComercio(Comercio $comercio)
+    public function setComercio(string $sComercio)
     {
-        $this->oComercio = $comercio;
+        $this->sComercio = $sComercio;
         return $this;
     }
 
@@ -128,9 +127,9 @@ class Transacciones
             ->select(DB::raw("HOUR(created_at) AS hora, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_', $this->sComercio);
                     }
                 }
             )
@@ -171,9 +170,9 @@ class Transacciones
             ->select(DB::raw("HOUR(created_at) as hora, COUNT(*) AS total, SUM(monto) AS monto "))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -221,9 +220,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) AS fecha, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -263,9 +262,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) AS fecha, transaccion_estatus_id, datos_procesador->>'$.response_code' AS response_code, datos_procesador->>'$.response_description' AS response_desc, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -304,9 +303,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) AS fecha, transaccion_estatus_id, datos_antifraude->>'$.response_code' AS response_code, datos_antifraude->>'$.response_description' AS response_desc, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -347,9 +346,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) AS fecha, transaccion_estatus_id, forma_pago, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -488,9 +487,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) as dia, COUNT(*) AS total, SUM(monto) AS monto "))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -539,9 +538,9 @@ class Transacciones
             ->select(DB::raw("WEEK(created_at) AS semana, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -581,9 +580,9 @@ class Transacciones
             ->select(DB::raw("transaccion_estatus_id, datos_procesador->>'$.response_code' AS response_code, datos_procesador->>'$.response_description' AS response_desc, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -623,9 +622,9 @@ class Transacciones
             ->select(DB::raw("transaccion_estatus_id, datos_antifraude->>'$.response_code' AS response_code, datos_antifraude->>'$.response_description' AS response_desc, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -666,9 +665,9 @@ class Transacciones
             ->select(DB::raw("DATE(created_at) AS fecha, transaccion_estatus_id, forma_pago, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -895,9 +894,9 @@ class Transacciones
             ->select(DB::raw("DAY(created_at) as dia, COUNT(*) AS total, SUM(monto) AS monto "))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )
@@ -944,9 +943,9 @@ class Transacciones
             ->select(DB::raw("MONTH(created_at) AS mes, COUNT(*) AS total, SUM(monto) AS monto"))
             ->where(
                 function ($q) {
-                    if (!empty($this->oComercio)) {
+                    if (!empty($this->sComercio)) {
                         return $q
-                            ->where('comercio_id', $this->oComercio->id);
+                            ->where('comercio_uuid', $this->sComercio);
                     }
                 }
             )

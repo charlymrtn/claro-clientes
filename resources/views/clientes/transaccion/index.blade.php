@@ -80,10 +80,9 @@
                             <thead>
                             <tr>
                                 <th data-priority="1">UUID</th>
-                                <th data-priority="3">Comercio</th>
                                 <th>Prueba</th>
                                 <th>Operacion</th>
-                                <th>Monto</th>
+                                <th data-priority="3">Monto</th>
                                 <th data-priority="2">Estatus</th>
                                 <th>Creado</th>
                                 <th> </th>
@@ -121,7 +120,6 @@
                     },
                     columns: [
                         {data: 'uuid'},
-                        {data: 'comercio_uuid'},
                         {data: 'prueba', render: function (d) { if (d===1) { return 'Si</span>'; } else {return 'No</span>';} } },
                         {data: 'operacion'},
                         {data: 'monto', render: $.fn.dataTable.render.number(',', '.', 2, '$')},
@@ -130,7 +128,7 @@
                         {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.transaccion.index') }}/' + d.uuid + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
                     ],
                     // Opciones iguales en todas las tablas.
-                    "order": [[6, "desc"]],
+                    "order": [[5, "desc"]],
                     "responsive": true,
                     "pageLength": 25,
                     "serverSide": true,
