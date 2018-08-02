@@ -193,7 +193,6 @@
                     //$('#result').html(data);
                     $('#ventanaSpinnerModal').modal('hide');
                     console.log("error");
-                    $('#ventanaErrorModal_Titulo').html(response.data.estatus[0].toUpperCase() + response.data.estatus.slice(1));
                     $('#ventanaErrorModal').modal('show');
                 })
                 .always(function(response) {
@@ -548,7 +547,7 @@
                                     <h3 class="box-title" id="ventanaErrorModal_Header">Error</h3>
                                 </div>
                                 <div class="box-body box-profile">
-                                    <span id="error-transaccion-descripcion"></span>
+                                    <span id="error-transaccion-descripcion">Ocurrió un error al comunicarse con el banco.</span>
                                 </div>
                             </div>
                         </div>
