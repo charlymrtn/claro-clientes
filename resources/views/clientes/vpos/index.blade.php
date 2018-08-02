@@ -193,6 +193,8 @@
                     //$('#result').html(data);
                     $('#ventanaSpinnerModal').modal('hide');
                     console.log("error");
+                    $('#ventanaErrorModal_Titulo').html(response.data.estatus[0].toUpperCase() + response.data.estatus.slice(1));
+                    $('#ventanaErrorModal').modal('show');
                 })
                 .always(function(response) {
                     //$('#result').html(response.data);
