@@ -240,7 +240,7 @@ class UsuarioController extends Controller
         $oUsuario = $this->oUsuario->find($id);
         if ($oUsuario == null) {
             Alert::error('Usuario no encontrado')->flash();
-            return redirect()->route('usuario.index');
+            return redirect()->route('clientes.usuario.index');
         }
         // Borra usuario
         try {

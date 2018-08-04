@@ -17,7 +17,7 @@
 @section('content')
     <form  id="perfil-edita-password" name="usuario-edita" method="post" action="{{ route('clientes.perfil.update') }}">
         {!! csrf_field() !!}
-        @can('editar perfil')
+        @can('editar perfil clientes')
         <div class="row">
             <div class="col-sm-12">
                 <div class="box box-primary">
@@ -31,7 +31,7 @@
                                 <input id="last-password" name="last-password" class="form-control" type="password" value="" placeholder="Contraseña anterior" maxlength="255" data-toggle="password" data-placement="before" data-message="Mostrar contraseña" required>
                                 <span class="fa fa-asterisk form-control-feedback" aria-hidden="true"></span>
                             </div>
-                            @include('clientes/usuario/partials/contrasena')
+                            @include('clientes/partials/contrasena')
                         </div>
                     </div>
                 </div>

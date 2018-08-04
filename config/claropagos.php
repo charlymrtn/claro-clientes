@@ -414,9 +414,9 @@ return [
     ],
 
     // Otras configuraciones generales
-
-    // Política de contraseñas
-    // Al menos 9 caracteres con mínimo tres caracteres entre los siguientes grupos: caracteres en minúsculas, caracteres en maypusculas, dígitos, no alfanuméricos, unicode
-    'politica_password' => 'min:9|max:255|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[\W]).*$/',
-
+    'global' => [
+        // Política de contraseñas
+        // Al menos 9 caracteres con mínimo tres caracteres entre los siguientes grupos: caracteres en minúsculas, caracteres en maypusculas, dígitos, no alfanuméricos, unicode
+        'politica_password' => 'min:9|max:255|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[\d\X])(?=.*[\W]).*$/',
+    ],
 ];

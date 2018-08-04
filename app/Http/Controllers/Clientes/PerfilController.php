@@ -89,39 +89,42 @@ class PerfilController extends Controller
     */
     public function update(Request $request)
     {
-        // Obtiene el usuario logueado
-        $oUsuario = Auth::user();
-        if ($oUsuario == null) {
-            Alert::error('Usuario no encontrado')->flash();
-            return redirect()->route('logout');
-        }
-        // Ajusta valores
-        $aAjustes = array();
-        if ($request->has('last-password')) {
-            if (!Hash::check($request->input('last-password'), $oUsuario->password)) {
-                Alert::error('La contraseña anterior es incorrecta')->flash();
-                return redirect()->route('perfil.password');
-            }
-        }
-        $request->merge($aAjustes);
         // Actualiza usuario
         try {
+            // Obtiene el usuario logueado
+            $oUsuario = Auth::user();
+            if ($oUsuario == null) {
+                Alert::error('Usuario no encontrado')->flash();
+                return redirect()->route('logout');
+            }
+            // Ajusta valores
+            $aAjustes = array();
+            if ($request->has('last-password')) {
+                if (!Hash::check($request->input('last-password'), $oUsuario->password)) {
+                    Alert::error('La contraseña anterior es incorrecta')->flash();
+                    return redirect()->route('clientes.perfil.password');
+                }
+            }
+            $request->merge($aAjustes);
+            // Prepara validación
+            $sPoliticaPassword = config('claropagos.global.politica_password');
+            // Valida campos
             $oValidator = Validator::make(array_merge(['id' => $oUsuario->id], $request->all()), [
                 'id' => 'required|numeric',
                 'name' => 'max:255',
                 'email' => 'email|max:255',
                 'change-password' => 'boolean',
-                'password' => 'required_if:change-password,true|min:6|max:255|confirmed',
-                'password_confirmation' => 'required_if:change-password,true|min:6|max:255',
+                'password' => 'required_if:change-password,true|confirmed|' . $sPoliticaPassword,
+                'password_confirmation' => 'required_if:change-password,true|' . $sPoliticaPassword,
                 'apellido_paterno' => 'max:255',
                 'apellido_materno' => 'max:255',
             ]);
             if ($oValidator->fails()) {
                 Alert::error($oValidator->errors())->flash();
                 if ($request->has('last-password')) {
-                    return redirect()->route('perfil.password');
+                    return redirect()->route('clientes.perfil.password');
                 } else {
-                    return redirect()->route('perfil.edit');
+                    return redirect()->route('clientes.perfil.edit');
                 }
             }
             // Modifica valores
@@ -133,11 +136,11 @@ class PerfilController extends Controller
             // Actualiza usuario
             $oUsuario->update($request->all());
             Alert::success('Datos actualizados correctamente')->flash();
-            return redirect()->route('perfil.index');
+            return redirect()->route('clientes.perfil.index');
         } catch (\Exception $e) {
             Alert::error("No se puede actualizar el registro. Error: " . $e->getMessage())->flash();
-            Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
-            return redirect()->route('perfil.index');
+            Log::error('Error on ' . __METHOD__ . ' línea ' . $e->getLine() . ':' . $e->getMessage());
+            return redirect()->route('clientes.perfil.index');
         }
     }
 
@@ -221,10 +224,10 @@ class PerfilController extends Controller
         } catch (\Exception $e) {
             Alert::error("No se pudo cambiar el avatar. Error: " . $e->getMessage())->flash();
             Log::error('Error on ' . __METHOD__ . ' line ' . $e->getLine() . ':' . $e->getMessage());
-            return redirect()->route('perfil.avatar');
+            return redirect()->route('clientes.perfil.avatar');
         }
         // Regresa al index de usuario
         Alert::success('El avatar fue editado correctamente')->flash();
-        return redirect()->route('perfil.index');
+        return redirect()->route('clientes.perfil.index');
     }
 }
