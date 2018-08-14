@@ -71,10 +71,9 @@
             }
             function fillTrxResult(data) {
                 $('#transaccion-id').html("<a href=\"{{ route('clientes.transaccion.index') }}/" + data.id + "\" class=\"btn btn-primary btn-sm\" role=\"button\">" + data.id + "</a>");
-                if (!data.autorizacion.trim()) {
-                    $('#transaccion-autorizacion').html(data.respuesta.38);
-                } else {
-                    $('#transaccion-autorizacion').html(data.autorizacion);
+                $('#transaccion-autorizacion').html(data.autorizacion);
+                if (!data.autorizacion) {
+                    $('#transaccion-autorizacion').html(data.respuesta[38]);
                 }
                 $('#transaccion-nombre').html("<span class=\"label\" style=\"background-color:" + data.estatus_color + ";\">" + data.estatus + "</span>");
                 $('#transaccion-monto').html(numeral(data.monto).format('$0,0.00'));
