@@ -103,7 +103,7 @@ class VposController extends Controller
         if (!isset($oMensajeCargo->status)) {
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error en respuesta'], 500);
         } elseif($oMensajeCargo->status == 'error' || $oMensajeCargo->status == 'fail') {
-            return ejsend_error(['code' => $oRespuesta->http_code, 'type' => 'Sistema', 'message' => $oRespuesta->error->message], $oRespuesta->http_code);
+            return ejsend_error(['code' => $oRespuesta->http_code ?? 500, 'type' => 'Sistema', 'message' => $oRespuesta->error->message ?? ''], $oRespuesta->http_code ?? '');
         }
         $oTrx = Transaccion::find($oRespuesta->id);
         $oRespuesta->fecha = $oTrx->created_at;
