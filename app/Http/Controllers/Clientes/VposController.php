@@ -50,7 +50,7 @@ class VposController extends Controller
         $oUsuario = Auth::user();
         if ($oUsuario == null) {
             Alert::error('Usuario no encontrado')->flash();
-            return redirect()->route('logout');
+            return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Sesión expirada.'], 500);
         }
 
         // Prepara mensaje
@@ -91,20 +91,18 @@ class VposController extends Controller
         #dump($aRequest);
         // Envía mensaje
         $oMensajeCargo = $this->mMensaje->envia('api', '/bbva/cargo', 'POST', json_encode($aRequest));
-        #dump($oMensajeCargo);
+        //return ejsend_success($oMensajeCargo);
 
         if (!empty($oMensajeCargo) && !empty($oMensajeCargo->response)) {
-            $oRespuesta = json_decode($oMensajeCargo->response);
-            #dd($oRespuesta);
+            $oRespuesta = json_decode(trim($oMensajeCargo->response));
+            //return print_r($oRespuesta, true);
         } else {
-            $oRespuesta = json_decode('{"error":"El cobro no pudo ser realizado."}');
-            return view('clientes.vpos.error')->with(['usuario' => $oUsuario, 'respuesta' => $oRespuesta]);
+            return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'El cobro no pudo ser realizado.'], 500);
         }
-
         // Busca transacción
-        if (!isset($oRespuesta->status)) {
+        if (!isset($oMensajeCargo->status)) {
             return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error en respuesta'], 500);
-        } elseif($oRespuesta->status == 'error' || $oRespuesta->status == 'fail') {
+        } elseif($oMensajeCargo->status == 'error' || $oMensajeCargo->status == 'fail') {
             return ejsend_error(['code' => $oRespuesta->http_code, 'type' => 'Sistema', 'message' => $oRespuesta->error->message], $oRespuesta->http_code);
         }
         $oTrx = Transaccion::find($oRespuesta->id);
