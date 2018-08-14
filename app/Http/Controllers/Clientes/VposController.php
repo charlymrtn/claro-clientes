@@ -102,6 +102,11 @@ class VposController extends Controller
         }
 
         // Busca transacción
+        if (!isset($oRespuesta->status)) {
+            return ejsend_error(['code' => 500, 'type' => 'Sistema', 'message' => 'Error en respuesta'], 500);
+        } elseif($oRespuesta->status == 'error' || $oRespuesta->status == 'fail') {
+            return ejsend_error(['code' => $oRespuesta->http_code, 'type' => 'Sistema', 'message' => $oRespuesta->error->message], $oRespuesta->http_code);
+        }
         $oTrx = Transaccion::find($oRespuesta->id);
         $oRespuesta->fecha = $oTrx->created_at;
         $oRespuesta->estatus_color = $oTrx->estatus->color;

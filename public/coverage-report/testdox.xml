@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tests>
-  <test className="Tests\Unit\App\Classes\Sistema\MensajeTest" methodName="test_envia" prettifiedClassName="Unit\App\Classes\Sistema\Mensaje" prettifiedMethodName="Envia" status="0" time="8.521742105484" size="-1" groups="default"/>
+  <test className="Tests\Unit\App\Classes\Sistema\MensajeTest" methodName="test_envia" prettifiedClassName="Unit\App\Classes\Sistema\Mensaje" prettifiedMethodName="Envia" status="0" time="1.9894199371338" size="-1" groups="default"/>
 </tests>
