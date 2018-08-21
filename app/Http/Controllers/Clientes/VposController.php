@@ -46,6 +46,8 @@ class VposController extends Controller
 
     public function cargo(Request $request)
     {
+        // Setea tiempo de ejecución
+        set_time_limit(90);
         // Obtiene el usuario logueado
         $oUsuario = Auth::user();
         if ($oUsuario == null) {
