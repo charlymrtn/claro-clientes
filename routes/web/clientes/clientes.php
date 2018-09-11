@@ -20,6 +20,8 @@ require base_path('routes/web/clientes/app/transacciones.php');
 require base_path('routes/web/clientes/token/token.php');
 // Vpos
 require base_path('routes/web/clientes/app/vpos.php');
+//Endpoint
+require base_path('routes/web/clientes/app/endpoints.php');
 
 /**
  * Clientes APIs

@@ -131,6 +131,12 @@ return [
             'icon' => 'credit-card-alt',
             'can' => 'listar vpos clientes',
         ],
+        [
+            'text' => 'EndPoints',
+            'url'  => 'clientes/endpoint',
+            'icon' => 'hand-pointer-o',
+            'can' => 'listar vpos clientes',
+        ],
 
         // Perfil del usuario
         'CUENTA',

@@ -12,6 +12,9 @@ use App\Models\TransaccionEstatus;
 use App\Models\Pais;
 use App\Models\Moneda;
 
+use App\Models\Endpoint;
+use App\Models\Comercio;
+
 class TransaccionController extends Controller
 {
 

@@ -119,5 +119,13 @@ class Comercio extends Model
         return $this->hasMany('App\Models\Token', 'comercio_uuid', 'uuid');
     }
 
+    /**
+     * Endpoint del comercio
+     */
+    public function endpoints()
+    {
+        return $this->hasMany('App\Models\Endpoint', 'comercio_uuid', 'uuid');
+    }
+
 
 }

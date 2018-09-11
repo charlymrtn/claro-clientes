@@ -23,5 +23,8 @@ class DatabaseSeeder extends Seeder
         $this->call(TarjetaMarcaTableSeeder::class);
         $this->call(TransaccionEstatusTableSeeder::class);
         $this->call(TokenTableSeeder::class);
+
+        //cat eventos
+        $this->call(CatEventosTableSeeder::class);
     }
 }
