@@ -10,18 +10,24 @@ use App\Http\Controllers\Controller;
 
 use Prologue\Alerts\Facades\Alert;
 
+use App\Models\cat__evento as CATEvento;
+
 class EndpointController extends Controller
 {
     protected $mEndpoint;
+
+    protected $oEventos;
 
     /**
      * Crea nueva instancia
      * @return void
      */
 
-    public function __construct(Endpoint $endpoint)
+    public function __construct(Endpoint $endpoint, CATEvento $eventos)
     {
         $this->mEndpoint = $endpoint;
+
+        $this->oEventos = $eventos;
     }
 
     /**
@@ -46,7 +52,10 @@ class EndpointController extends Controller
     public function create()
     {
         //
-        return "create";
+        $cEventos = $this->oEventos->getEventos();
+        // Muestra vista con datos
+        //return $cEventos;
+        return view('clientes.endpoint.create')->with(['eventos' => $cEventos]);
     }
 
     /**
@@ -58,6 +67,14 @@ class EndpointController extends Controller
     public function store(Request $request)
     {
         //
+        if (!empty($request->input('url')) && count($request->input('eventos'))>0) {
+            
+            //return $request->all();
+            
+        } else {
+            Alert::error("Ocurrio un error al crear el endpoint.")->flash();
+            return redirect()->back()->withInput();
+        }
     }
 
     /**

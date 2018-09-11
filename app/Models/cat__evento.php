@@ -24,4 +24,16 @@ class cat__evento extends Model
      * @var array
      */
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
+
+    protected $hidden = ['updated_at','deleted_at'];
+
+    /**
+     * Obtiene lista de eventos totates
+     *
+     * @return object Collection con permisos disponibles
+     */
+    public function getEventos()
+    {
+        return $this->all();
+    }
 }

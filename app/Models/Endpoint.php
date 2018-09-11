@@ -25,6 +25,8 @@ class Endpoint extends Model
      */
     protected $dates = ['deleted_at', 'created_at', 'updated_at'];
 
+    protected $hidden = ['deleted_at'];
+
     //relaciones
     public function eventos()
     {
