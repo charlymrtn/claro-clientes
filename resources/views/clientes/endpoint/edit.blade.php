@@ -8,17 +8,13 @@
 @stop
 @section('css')
     <link rel="stylesheet" type="text/css" href="{{ mix('/css/mix/forms.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ mix('/css/app.css') }}">
     <link rel="stylesheet" media="screen" type="text/css" href="{{ mix('/css/multi-select.css') }}">
 @stop
 
 @section('adminlte_js')
-    <script type="text/javascript" src="{{ mix('/js/app.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('/js/mix/ui.js') }}"></script>
-
+    
     <script type="text/javascript" src="{{ mix('/js/jquery.multi-select.js') }}"></script>
     <script type="text/javascript" src="{{ mix('/js/mix/forms.js') }}"></script>
-    <script type="text/javascript" src="{{ mix('/js/bootstrap-confirmation.js') }}"></script>
 
     <script>
         $('#generar').on('click', function (e) {
@@ -27,7 +23,6 @@
         });
 
         $('#eventos').multiSelect();
-
         
     </script>
 @stop
@@ -67,7 +62,7 @@
                                     @endforeach
                                 </select>
                             </div>
-        
+                            
                         </div>
                     </div>
                 </div>
@@ -76,31 +71,14 @@
                         <div class="box box-danger">
                             <div class="box-body table-responsive">
                                 <button id="generar" type="submit" class="btn btn-success"><i class="fa fa-key"></i> Actualizar Endpoint</button>
-                                <a type="button" href="{{route('clientes.endpoint.destroy',$endpoint->id)}}" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash"></i> Borrar Endpoint</a>
+                                <a type="button" class="btn btn-warning" data-toggle="modal" data-target="#modal-danger"><i class="fa fa-trash"></i> Borrar Endpoint</a>
                                 <a href="{{route('clientes.endpoint.index')}}" type="button" class="btn btn-danger pull-right">Cancelar</a>
                             </div>
                         </div>
+                        @include('clientes.endpoint.modal')
                     </div>
                 </div>
                 </form>
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title" id="myModalLabel">Confimación</h4>
-                        </div>
-                        <div class="modal-body">
-                            ¿Seguro que deseas eliminar el Endpoint?
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash"></i> Borrar Endpoint</a>
-                        </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
