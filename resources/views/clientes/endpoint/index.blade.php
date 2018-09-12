@@ -53,7 +53,7 @@
                         "url": "/clientes/list",
                         "dataSrc": "data.endpoint.data",
                         "data": function (d) {
-                            console.log(d);
+                            //console.log(d);
                             var request_data = {};
                             request_data.per_page = d.length;
                             request_data.page = Math.ceil(d.start / d.length) + 1;
@@ -78,7 +78,7 @@
                         {data: 'comercio_uuid'},
                         {data: 'num_eventos'},
                         {data: 'created_at', render: function (d) { if(d) { return d.split(" ")[0] } else { return null } } },
-                        {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.endpoint.index') }}/' + d.uuid + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
+                        {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.endpoint.index') }}/' + d.id + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
                     ],
                     // Opciones iguales en todas las tablas.
                     "order": [[5, "desc"]],

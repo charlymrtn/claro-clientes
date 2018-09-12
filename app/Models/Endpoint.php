@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Evento;
+
 class Endpoint extends Model
 {
     //
@@ -30,11 +32,11 @@ class Endpoint extends Model
     //relaciones
     public function eventos()
     {
-        return $this->hasMany('App\Models\Evento', 'endpoint_id', 'id');
+        return $this->hasMany('App\Models\Evento');
     }
 
     public function comercio()
     {
-        return $this->belongsTo('App\Models\Comercio','comercio_uuid');
+        return $this->belongsTo('App\Models\Comercio');
     }
 }

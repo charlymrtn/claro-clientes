@@ -19,5 +19,8 @@
     "/css/fonts/MaterialIcons-Regular.svg": "/css/fonts/MaterialIcons-Regular.svg",
     "/css/fonts/MaterialIcons-Regular.ttf": "/css/fonts/MaterialIcons-Regular.ttf",
     "/css/fonts/MaterialIcons-Regular.woff": "/css/fonts/MaterialIcons-Regular.woff",
-    "/css/fonts/MaterialIcons-Regular.woff2": "/css/fonts/MaterialIcons-Regular.woff2"
+    "/css/fonts/MaterialIcons-Regular.woff2": "/css/fonts/MaterialIcons-Regular.woff2",
+    "/css/multi-select.css": "/css/multi-select.css",
+    "/js/jquery.multi-select.js": "/js/jquery.multi-select.js",
+    "/js/bootstrap-confirmation.js": "/js/bootstrap-confirmation.js"
 }

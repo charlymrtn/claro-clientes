@@ -12,6 +12,7 @@ use Prologue\Alerts\Facades\Alert;
 
 use App\Models\cat__evento as CATEvento;
 use Auth;
+use App\Models\Evento;
 
 class EndpointController extends Controller
 {
@@ -73,6 +74,8 @@ class EndpointController extends Controller
             //return $request->all();
             $sComercio = Auth::user()->comercio_uuid;
 
+            $eventos = $request->input('eventos');
+
             $endpoint = new Endpoint;
             $endpoint->url = $request->input('url');
             $endpoint->comercio_uuid = $sComercio;
@@ -81,7 +84,22 @@ class EndpointController extends Controller
 
             $endpoint->save();
 
-            return redirect()->back();
+            foreach ($eventos as $evento) {
+                # code...
+                $infoEvento = $this->oEventos->find($evento);
+                
+                $nEvento = new Evento;
+                $nEvento->tipo_evento = $infoEvento->nombre;
+                $nEvento->endpoint_id = $endpoint->id;
+
+                $nEvento->save();
+
+                unset($nEvento);
+                unset($infoEvento);
+                
+            }
+            Alert::success("Endpoint creado correctamente.")->flash();
+            return redirect()->route('clientes.endpoint.index');
 
         } else {
             Alert::error("Ocurrio un error al crear el endpoint.")->flash();
@@ -98,6 +116,33 @@ class EndpointController extends Controller
     public function show(Endpoint $endpoint)
     {
         //
+        if (!$endpoint) {
+            # code...
+            return 'no hay endpoint';
+        }else{
+             //
+            $cEventos = $this->oEventos->getEventos();
+            $eEventos = Evento::where('endpoint_id',$endpoint->id)->get();
+
+            //$diff = $cEventos->diff($eEventos);
+
+            foreach($cEventos as $evento){
+                foreach($eEventos as $event){
+                    if($evento->nombre == $event->tipo_evento){
+                        $evento->selected = "1";
+                    }
+                }
+            }
+
+            //return $cEventos;
+
+            // Muestra vista con datos
+            //return $cEventos;
+            return view('clientes.endpoint.edit')->with([
+                'eventos' => $cEventos,
+                'endpoint' => $endpoint
+                ]);
+        }
     }
 
     /**
@@ -121,6 +166,41 @@ class EndpointController extends Controller
     public function update(Request $request, Endpoint $endpoint)
     {
         //
+        if (!empty($request->input('url')) && count($request->input('eventos'))>0) {
+            
+            $endpoint->url = $request->input('url');
+            $endpoint->max_intentos = $request->input('max_intentos') ? $request->input('max_intentos') : 1;
+            $endpoint->num_eventos = count($request->input('eventos'));
+
+            $endpoint->save();
+
+            $eEventos = Evento::where('endpoint_id',$endpoint->id);
+            $eEventos->delete();
+
+            $eventos = $request->input('eventos');
+
+            foreach ($eventos as $evento) {
+                # code...
+                $infoEvento = $this->oEventos->find($evento);
+                
+                $nEvento = new Evento;
+                $nEvento->tipo_evento = $infoEvento->nombre;
+                $nEvento->endpoint_id = $endpoint->id;
+
+                $nEvento->save();
+
+                unset($nEvento);
+                unset($infoEvento);
+                
+            }
+
+            Alert::success("Endpoint actualizado correctamente.")->flash();
+            return redirect()->route('clientes.endpoint.index');
+        }else{
+            Alert::error("Ocurrio un error al actualizar el endpoint.")->flash();
+            return redirect()->back()->withInput();
+        }
+        
     }
 
     /**
@@ -129,9 +209,11 @@ class EndpointController extends Controller
      * @param  \App\Endpoint  $endpoint
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Endpoint $endpoint)
+    public function destroy($id)
     {
-        //
+        Endpoint::destroy($id);
+        Alert::info("Endpoint eliminado correctamente.")->flash();
+        return redirect()->route('clientes.endpoint.index');
     }
 
     /**
@@ -148,7 +230,7 @@ class EndpointController extends Controller
                 'comercio_uuid' => 'uuid|size:36',
                 // Datos de la paginación y filtros
                 'per_page' => 'numeric|between:5,100',
-                'order' => 'max:30|in:url,es_activo,es_valido,max_intentos,comercio_uuid,created_at',
+                'order' => 'max:30|in:url,es_activo,es_valido,max_intentos,comercio_uuid,num_eventos,created_at',
                 'search' => 'max:100',
                 'sort' => 'in:asc,desc',
             ]);
