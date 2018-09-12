@@ -32,9 +32,14 @@
                 <div class="box-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <div id="nombre" class="form-group">
+                            <div id="url" class="form-group">
                                 <label>URL del Endpoint</label>
                                 <input type="text" required class="form-control" id="url" name="url" placeholder="Ingresa el url del endpoint" >
+                                <span id="error" class="help-block"></span>
+                            </div>
+                            <div id="url" class="form-group">
+                                <label>Numero Maximo de Intentos</label>
+                                <input type="text" required class="form-control" id="max_intentos" name="max_intentos" placeholder="Ingresa el maximo de intentos" >
                                 <span id="error" class="help-block"></span>
                             </div>
                             <div class="form-group">

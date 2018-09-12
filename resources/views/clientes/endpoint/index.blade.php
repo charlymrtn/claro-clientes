@@ -76,6 +76,7 @@
                         {data: 'es_valido', render: function (d) { if (d===1) { return 'Si</span>'; } else {return 'No</span>';} } },
                         {data: 'max_intentos'},
                         {data: 'comercio_uuid'},
+                        {data: 'num_eventos'},
                         {data: 'created_at', render: function (d) { if(d) { return d.split(" ")[0] } else { return null } } },
                         {data: null, orderable: false, render: function (d) { return '<a href="{{ route('clientes.endpoint.index') }}/' + d.uuid + '" class="btn btn-primary btn-xs" role="button"><i class="fa fa-eye"></i> Detalles</a>'; } }
                     ],

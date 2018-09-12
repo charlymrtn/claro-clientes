@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use Prologue\Alerts\Facades\Alert;
 
 use App\Models\cat__evento as CATEvento;
+use Auth;
 
 class EndpointController extends Controller
 {
@@ -70,7 +71,18 @@ class EndpointController extends Controller
         if (!empty($request->input('url')) && count($request->input('eventos'))>0) {
             
             //return $request->all();
-            
+            $sComercio = Auth::user()->comercio_uuid;
+
+            $endpoint = new Endpoint;
+            $endpoint->url = $request->input('url');
+            $endpoint->comercio_uuid = $sComercio;
+            $endpoint->max_intentos = $request->input('max_intentos') ? $request->input('max_intentos') : 1;
+            $endpoint->num_eventos = count($request->input('eventos'));
+
+            $endpoint->save();
+
+            return redirect()->back();
+
         } else {
             Alert::error("Ocurrio un error al crear el endpoint.")->flash();
             return redirect()->back()->withInput();
